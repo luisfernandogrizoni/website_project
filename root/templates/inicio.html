@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block titulo %}Associação Restauração{% endblock %}
+
+{% block body %}
+    <div class="dashboard-grid">
+    <a href="{{ url_for('social.prontuario') }}" class="dash-card">
+        <div class="icon"></div>
+        <div>
+            <h3>Novo Cadastro</h3>
+            <p>Registrar admissão</p>
+        </div>
+    </a>
+
+    <a href="{{ url_for('social.dados') }}" class="dash-card">
+        <div class="icon"></div>
+        <div>
+            <h3>Lista de Internos</h3>
+            <p>Gerenciar prontuários</p>
+        </div>
+    </a>
+
+    <a href="{{ url_for('social.agenda') }}" class="dash-card">
+        <div class="icon"></div>
+        <div>
+            <h3>Agenda</h3>
+            <p>Triagens e eventos</p>
+        </div>
+    </a>
+
+    {% if current_user.cargo_obj.nome in ['Admin'] %}
+        <a href="{{ url_for('admin.novo_funcionario') }}" class="dash-card">
+            <div class="icon"></div>
+            <div>
+                <h3>Admin</h3>
+                <p>Configurações</p>
+            </div>
+        </a>
+    {% endif %}
+
+    </div>
+{% endblock %}

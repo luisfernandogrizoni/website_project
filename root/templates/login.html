@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block titulo %}Entrar{% endblock %}
+
+{% block header_class %}header-hidden{% endblock %}
+{% block main_class %}content-full{% endblock %}
+
+{% block body %}
+
+<div class="split-container">
+    <div class="split-content">
+        <div class="form-wrapper-centered">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" class="login-logo">
+            <h2>Associação Restauração</h2>
+            <p class="subtitle">Bem vindo, Associado!</p>
+
+            <form method="POST" id="formLogin">
+                {{ form.csrf_token }}
+                <div class="form-group form-group-left">
+                    <label>E-Mail</label>
+                    {{ form.email(placeholder="seu@email.com") }}
+                </div>
+                <div class="form-group form-group-left">
+                    <label>Senha</label>{{ form.senha(placeholder="********") }}
+                </div>
+
+                <button type="submit" class="btn btn-primary">Entrar</button>
+            </form>
+        </div>
+    </div>
+    <div class="split-image">
+        <img src="{{ url_for('static', filename='images/banner.png') }}"
+             alt="Banner Lateral"
+             style="width: 100%; height: 100%; object-fit: cover;">
+    </div>
+</div>
+{% endblock %}

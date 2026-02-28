@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block titulo %}Novo Cargo{% endblock %}
+
+    {% block body %}
+        <div class="form-container">
+            <form method="POST" action="" id="FormFuncionario">
+            {{ form.csrf_token }}
+                <div class="form-row">
+                    <div class="form-group">
+                      <label>Cargo</label>
+                      {{form.nome(placeholder='Admin') }} {% for error in form.nome.errors %}<span class="error-message">{{ error }}</span>{% endfor %}
+                    </div>
+                </div>
+                    {{ form.botao_confirmacao(class="btn-primary") }}
+            </form>
+        </div>
+    {% endblock %}

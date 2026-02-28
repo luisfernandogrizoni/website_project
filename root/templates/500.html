@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block titulo %}Erro Interno (500){% endblock %}
+{% block body %}
+    <div class="error-page-container">
+
+            <div class="form-container error-card">
+
+                <div class="error-code">500</div>
+
+                <div class="error-title">Erro Interno do Servidor</div>
+
+                <p class="error-message">
+                    Ocorreu um problema inesperado ao processar sua solicitação.
+                    <br>Por favor, tente novamente em alguns instantes.
+                </p>
+
+                {% if error and current_user.is_admin %}
+                <div class="technical-details visible">
+                    <strong>Detalhes Técnicos:</strong><br>
+                    {{ error }}
+                </div>
+                {% endif %}
+
+                <div class="btn-align">
+                    <a href="{{ url_for('main.inicio') }}" class="btn btn-primary">
+                        Voltar ao Início
+                    </a>
+                    <button onclick="window.location.reload()" class="btn btn-secondary">
+                        Tentar Novamente
+                    </button>
+                </div>
+            </div>
+        {% endblock %}
+    </div>

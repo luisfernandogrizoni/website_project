@@ -1,0 +1,130 @@
+{% extends "base.html" %} {% from "_macros.html" import render_field %}
+
+{% block titulo %}Internação{% endblock %}
+
+{% block body %}
+<div class="form-container">
+    <div class="stepper-wrapper">
+        <div class="stepper-item stepper-link active" id="step-indicator-1" data-target="1" style="cursor: pointer"><div class="step-counter">1</div><div>Pessoal</div></div>
+        <div class="stepper-item stepper-link" id="step-indicator-2" data-target="2" style="cursor: pointer"><div class="step-counter">2</div><div>Endereço</div></div>
+        <div class="stepper-item stepper-link" id="step-indicator-3" data-target="3" style="cursor: pointer"><div class="step-counter">3</div><div>Social</div></div>
+        <div class="stepper-item stepper-link" id="step-indicator-4" data-target="4" style="cursor: pointer"><div class="step-counter">4</div><div>Responsável</div></div>
+    </div>
+
+    <form method="POST" action="" id="prontuarioForm">
+        {{ form.csrf_token }}
+
+        {% if current_user.cargo_obj.nome in ['Admin'] %}
+            <button type="button" onclick="autoPreencher()" class="btn btn-primary">Preencher</button>
+        {% endif %}
+
+        <div class="form-step" id="step-1">
+            <h2>Dados Pessoais</h2>
+
+            {{ render_field(form.nome, placeholder="Ex: João da Silva", data_bind="nome") }}
+
+            <div class="form-row">
+                {{ render_field(form.data_nascimento, class_="mask-date", data_bind="data_nascimento") }}
+                {{ render_field(form.data_internacao, class_="mask-date", data_bind="data_internacao") }}
+            </div>
+
+            <div class="form-row">
+                {{ render_field(form.cpf, class_="mask-cpf validate-cpf", placeholder="000.000.000-00", data_bind="cpf") }}
+                {{ render_field(form.rg, class_="mask-rg", placeholder="00.000.000-0", data_bind="rg") }}
+            </div>
+
+            <div class="form-row">
+                {{ render_field(form.cartao_sus, class_="mask-sus", placeholder="000.0000.0000.0000", data_bind="cartao_sus") }}
+                {{ render_field(form.convenio, data_bind="convenio") }}
+            </div>
+
+            <button type="button" class="btn btn-primary" data-stepper-action="next" data-target="2">Próximo</button>
+        </div>
+
+        <div class="form-step" id="step-2" style="display: none;">
+            <h2 style="text-align: center">Endereço</h2>
+
+            <div class="form-row">
+                {{ render_field(form.cep, id="cep", class_="mask-cep action-busca-cep", placeholder="00000-000") }}
+                <div style="flex: 2;">
+                    {{ render_field(form.rua, id="rua", data_bind="rua") }}
+                </div>
+            </div>
+
+            <div class="form-row">
+                {{ render_field(form.num, id="num", data_bind="num") }}
+                <div style="flex: 2;">
+                    {{ render_field(form.bairro, id="bairro", data_bind="bairro") }}
+                </div>
+            </div>
+
+            <div class="form-row">
+                {{ render_field(form.cidade, id="cidade", data_bind="cidade") }}
+                {{ render_field(form.estado, id="estado", data_bind="estado") }}
+            </div>
+
+            <div class="btn-align">
+                <button type="button" class="btn btn-primary" data-stepper-action="next" data-target="3">Próximo</button>
+                <button type="button" class="btn btn-secondary" data-stepper-action="prev" data-target="1">Voltar</button>
+            </div>
+        </div>
+
+        <div class="form-step" id="step-3" style="display: none;">
+             <h2 style="text-align: center">Dados Sociais</h2>
+
+             {{ render_field(form.mae, data_bind="mae") }}
+
+             <div class="form-row">
+                 {{ render_field(form.escolaridade, data_bind="escolaridade") }}
+                 {{ render_field(form.profissao, data_bind="profissao") }}
+             </div>
+
+             <div class="form-row">
+                 {{ render_field(form.religiao, data_bind="religiao") }}
+                 {{ render_field(form.estado_civil, id="estado_civil", data_bind="estado_civil") }}
+             </div>
+
+             <div id="conjuge_container" style="display: none;">
+                 {{ render_field(form.conjuge, data_bind="conjuge") }}
+             </div>
+
+              <div class="btn-align">
+                 <button type="button" class="btn btn-primary" data-stepper-action="next" data-target="4">Próximo</button>
+                 <button type="button" class="btn btn-secondary" data-stepper-action="prev" data-target="2">Voltar</button>
+            </div>
+        </div>
+
+        <div class="form-step" id="step-4" style="display: none;">
+            <h2 style="text-align: center">Dados do Responsável</h2>
+
+            {{ render_field(form.responsavel, data_bind="responsavel") }}
+
+            <div class="form-row">
+                {{ render_field(form.relacao, data_bind="relacao") }}
+                {{ render_field(form.contrib, data_bind="contrib") }}
+            </div>
+
+            <h3 style="font-size: 1rem; margin-top: 15px; border-bottom: 1px solid #eee;">Contato</h3>
+            <div class="form-row">
+                {{ render_field(form.contato, class_="mask-phone", id="contato", data_bind="contato") }}
+                {{ render_field(form.contato_dois, class_="mask-phone", id="contato_dois", data_bind="contato_dois") }}
+            </div>
+
+            <h3 style="font-size: 1rem; margin-top: 15px; border-bottom: 1px solid #eee;">Documentos</h3>
+            <div class="form-row">
+                {{ render_field(form.cpf_resp, class_="mask-cpf validate-cpf", id="cpf_resp", placeholder="000.000.000-00", data_bind="cpf_resp") }}
+                {{ render_field(form.rg_resp, class_="mask-rg", id="rg_resp", placeholder="00.000.000-0", data_bind="rg_resp") }}
+            </div>
+
+            <div class="btn-align">
+                <button type="button" class="btn btn-secondary" data-stepper-action="prev" data-target="3">Voltar</button>
+                {{ form.botao_confirmacao(class_="btn btn-primary") }}
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ url_for('static', filename='js/prontuario.js') }}"></script>
+{% endblock %}

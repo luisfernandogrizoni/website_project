@@ -1,0 +1,42 @@
+# --- PYTHON (Compilados e Cache) ---
+# Evita subir arquivos .pyc que são gerados automaticamente
+__pycache__/
+*.py[cod]
+*$py.class
+
+# --- AMBIENTE VIRTUAL (Pesado e Desnecessário) ---
+# Nunca suba a pasta .venv. Quem baixar seu código cria a própria.
+.venv/
+venv/
+env/
+
+# --- SEGURANÇA (CRÍTICO) ---
+# Nunca suba suas senhas e chaves secretas!
+.env
+.flaskenv
+.env.local
+
+# --- IDE (Configurações Locais) ---
+# Arquivos do PyCharm (.idea) e VS Code (.vscode) são pessoais
+.idea/
+.vscode/
+*.swp
+
+# --- BANCO DE DADOS (Dados Locais) ---
+# Não queremos subir o banco de dados de teste/produção
+*.db
+*.sqlite3
+
+# --- FLASK (Instância e Logs) ---
+# A pasta instance costuma guardar o banco SQLite e configs locais
+instance/
+# Logs de erro que configuramos
+logs/
+*.log
+
+# --- SISTEMA OPERACIONAL (Lixo) ---
+.DS_Store
+Thumbs.db
+
+senhas.txt
+Procfile

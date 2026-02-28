@@ -1,0 +1,201 @@
+{% extends "base.html" %}
+
+{% block titulo %}Lista de Internos{% endblock %}
+
+{% block body %}
+    <div class="container">
+
+        <div class="nav-tabs">
+            <div class="nav-tab active" onclick="switchTab('ativos')">Internos Ativos</div>
+            <div class="nav-tab" onclick="switchTab('inativos')">Arquivo Morto</div>
+        </div>
+
+        <div id="tab-ativos" class="tab-content active table-container">
+            <table id="tabelaAtivos" class="stripe hover">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th class="mobile-hide">Idade</th>
+                        <th class="mobile-hide">CPF</th>
+                        <th>Convênio</th>
+                        <th class="mobile-hide">Cidade</th>
+                        <th class="mobile-hide">Responsável</th>
+                        <th class="mobile-hide">Entrada</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for p in lista_ativos %}
+                    <tr>
+                        <td data-label="Nome" style="cursor: pointer; color: crimson; font-weight: bold;"
+                                onclick="abrirDashboard({{ p.id }})">{{ p.nome.title() }}</td>
+                        <td class="mobile-hide" data-label="Idade">{{ p.idade }}</td>
+                        <td class="mobile-hide" data-label="CPF">{{ p.cpf }}</td>
+                        <td data-label="Convênio">
+                            {% set classe = 'badge-padrao' %}
+                            {% if 'social' in p.convenio %}{% set classe = 'badge-social' %}
+                                <span class="badge {{ classe }}">Social</span>
+                            {% elif 'particular' in p.convenio %}{% set classe = 'badge-particular' %}
+                                <span class="badge {{ classe }}">Particular</span>
+                            {% elif 'capsAD' in p.convenio %}{% set classe = 'badge-caps' %}
+                                <span class="badge {{ classe }}">Caps AD</span>
+                            {% elif 'taruma' in p.convenio %}{% set classe = 'badge-taruma' %}
+                                <span class="badge {{ classe }}">Convênio Tarumã</span>
+                            {% else %}
+                            <span class="badge {{ classe }}">{{ p.convenio }}</span>
+                            {% endif %}
+                        </td>
+                        <td class="mobile-hide" data-label="Cidade">{{ p.cidade }}</td>
+                        <td class="mobile-hide" data-label="Responsável">{{ p.responsavel}}</td>
+                        <td class="mobile-hide" data-label="Entrada">{{ p.data_internacao.strftime('%d/%m/%Y') }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div id="tab-inativos" class="tab-content table-container">
+            <table id="tabelaInativos" class="stripe hover" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th class="mobile-hide">Idade</th>
+                        <th class="mobile-hide">Convênio</th>
+                        <th class="mobile-hide">Saída</th>
+                        <th>Permanência</th>
+                        <th>Motivo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for p in lista_inativos %}
+                    <tr>
+                        <td data-label="Nome" style="cursor: pointer; color: crimson; font-weight: bold;"
+                                onclick="abrirDashboard({{ p.id }})">{{ p.nome.title() }}</td>
+                        <td>{{ p.idade }}</td>
+                        <td>
+                            {% set classe = 'badge-padrao' %}
+                            {% if 'social' in p.convenio %}{% set classe = 'badge-social' %}
+                                <span class="badge {{ classe }}">Social</span>
+                            {% elif 'particular' in p.convenio %}{% set classe = 'badge-particular' %}
+                                <span class="badge {{ classe }}">Particular</span>
+                            {% elif 'capsAD' in p.convenio %}{% set classe = 'badge-caps' %}
+                                <span class="badge {{ classe }}">Caps AD</span>
+                            {% elif 'taruma' in p.convenio %}{% set classe = 'badge-taruma' %}
+                                <span class="badge {{ classe }}">Convênio Tarumã</span>
+                            {% else %}
+                            <span class="badge {{ classe }}">{{ p.convenio }}</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ p.data_saida.strftime('%d/%m/%Y') if p.data_saida else '-' }}</td>
+                        <td>{{ p.tempo_permanencia }}</td>
+                        <td>{{ p.motivo_saida }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+<div id="modalDashboard" class="modal-overlay">
+    <div class="modal-content prontuario-modal">
+
+        <div class="area-header">
+            <div>
+                <h2 id="d-nome">Carregando...</h2>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <span id="d-badge-status" class="badge">...</span>
+                    <small style="color: rgba(255,255,255,0.8);" id="d-convenio">...</small>
+                </div>
+                <div class="header-actions">
+                <button id="btnEdit" class="btn btn-action" data-id=""><i class="fas fa-edit"></i>Editar</button>
+                </div>
+
+                <button class="close-modal" onclick="fecharDashboard()">&times;</button>
+            </div>
+        </div>
+
+        <div class="area-stats">
+            <div class="stat-card">
+                <span class="stat-label">Idade</span>
+                <strong id="d-idade">--</strong>
+            </div>
+            <div class="stat-card">
+                <span class="stat-label">Internação</span>
+                <strong id="d-internacao">--</strong>
+            </div>
+
+            <div class="stat-card" id="box-stats-ativo">
+                <span class="stat-label">Previsão Alta</span>
+                <strong id="d-previsao">--</strong>
+            </div>
+
+            <div class="stat-card" id="box-stats-inativo" style="display: none;">
+                <span class="stat-label">Saída</span>
+                <strong id="d-saida" style="color: var(--c-action);">--</strong>
+            </div>
+        </div>
+
+        <div class="prontuario-dashboard-grid">
+
+            <div class="area-main">
+                <h3>Dados Pessoais</h3>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="info-group"><label>CPF</label> <span id="d-cpf"></span></div>
+                    <div class="info-group"><label>RG</label> <span id="d-rg"></span></div>
+                    <div class="info-group"><label>Nascimento</label> <span id="d-nascimento"></span></div>
+                    <div class="info-group"><label>Cartão SUS</label> <span id="d-sus"></span></div>
+                    <div class="info-group"><label>Nome da Mãe</label> <span id="d-mae"></span></div>
+                    <div class="info-group"><label>Cônjuge</label> <span id="d-conjuge"></span></div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem;">
+                     <div class="info-group"><label>Escolaridade</label> <span id="d-escolaridade"></span></div>
+                     <div class="info-group"><label>Profissão</label> <span id="d-profissao"></span></div>
+                     <div class="info-group"><label>Religião</label> <span id="d-religiao"></span></div>
+                     <div class="info-group"><label>Estado Civil</label> <span id="d-civil"></span></div>
+                </div>
+
+            </div>
+
+            <div class="area-side">
+
+                <div class="side-card">
+                    <h3>Localização & Contato</h3>
+                    <div class="info-group">
+                        <label>Endereço</label>
+                        <span id="d-endereco"></span>
+                    </div>
+                    <div class="info-group">
+                        <label>Cidade/Estado</label>
+                        <span><span id="d-cidade"></span> - <span id="d-estado"></span></span>
+                    </div>
+
+                    <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #eee;">
+                        <div class="info-group"><label>Contato Principal</label> <span id="d-contato"></span></div>
+                        <div class="info-group"><label>Contato Secundário</label> <span id="d-contato2"></span></div>
+                    </div>
+                </div>
+
+                <div class="side-card">
+                    <h3>Responsável</h3>
+                    <div class="info-group"><label>Nome</label> <span id="d-resp-nome"></span></div>
+                    <div class="info-group"><label>Relação</label> <span id="d-resp-relacao"></span></div>
+                    <div class="info-group"><label>Contribuição</label> <span id="d-contrib"></span></div>
+                    <div class="info-group"><label>Documentos</label>
+                        <span style="font-size: 0.8rem">CPF: <span id="d-resp-cpf"></span></span><br>
+                        <span style="font-size: 0.8rem">RG: <span id="d-resp-rg"></span></span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% block scripts %}
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="{{ url_for('static', filename='js/dados.js') }}"></script>
+{% endblock %}
+{% endblock %}

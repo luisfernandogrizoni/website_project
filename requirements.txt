@@ -1,0 +1,18 @@
+Flask~=3.1.2
+Flask-SQLAlchemy
+Flask-Login~=0.6.3
+Flask-Bcrypt~=1.0.1
+Flask-Migrate~=4.1.0
+Flask-WTF
+email-validator
+python-dotenv~=1.2.1
+psycopg2-binary
+gunicorn
+docxtpl~=0.20.1
+python-dateutil~=2.9.0.post0
+Babel~=2.17.0
+pywin32; sys_platform == 'win32'
+click~=8.2.1
+alembic~=1.17.2
+SQLAlchemy~=2.0.43
+WTForms~=3.2.1
