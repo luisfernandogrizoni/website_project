@@ -201,9 +201,9 @@ const App = {
                 <label style="font-size: 0.9rem; font-weight: bold;">Motivo da Saída</label>
                 <select id="swal-motivo" class="swal2-select" style="margin: 5px 0;">
                     <option value="" disabled selected>Selecione</option>
-                    <option value="Conclusão">Alta Médica</option>
+                    <option value="Conclusão">Conclusão</option>
                     <option value="Desistência">Desistência</option>
-                    <option value="Expulsão Disciplinar">Expulsão Disciplinar</option>
+                    <option value="Exclusão">Exclusão</option>
                     <option value="Óbito">Óbito</option>
                 </select>
                 </div>
@@ -234,13 +234,13 @@ const App = {
                 });
 
                     if (!response.ok) {
-                        const errorText = await response.text();
-                        console.error("[ERRO SERVER 400/500]:", errorText);
-                        throw new Error(`Erro do Servidor: ${response.status} - ${errorText}`);
+                        throw new Error('Erro do Servidor');
                     }
 
+                App.mostrarSucesso('Baixa realizada com sucesso!', true);
+
                 } catch (error) {
-                    console.error("[CRITICAL] Falha na comunicação com API de Baixa. Status:", response.status);
+                    console.error("[CRITICAL] Falha na comunicação com API de Baixa. Status:", error);
                     App.fecharAlerta();
                     App.mostrarErro('Erro ao processar a baixa.');
                 }
@@ -506,6 +506,13 @@ const App = {
                 btnEdit.innerHTML = '<i class="fas fa-edit"></i> Editar';
             }
 
+            const btnInactivate = document.getElementById('btnInactivate');
+            if (btnInactivate) {
+                btnInactivate.setAttribute('data-id', id);
+                btnInactivate.classList.remove('is-loading');
+                btnInactivate.innerHTML = '<i class="fas fa-archive"></i> Dar Baixa';
+            }
+
             App.fecharAlerta();
 
         } catch (error) {
@@ -593,6 +600,24 @@ const App = {
                     }, 300);
                 });
         }
+
+        const btnInactivate = document.getElementById('btnInactivate');
+        if (btnInactivate) {
+            btnInactivate.addEventListener('click', function (){
+                const pacienteId = this.getAttribute('data-id');
+                if (!pacienteId) {
+                    console.error("Tentativa de edição sem ID válido.");
+                    return;
+                }
+
+                const elementoNome = document.getElementById('d-nome');
+                const pacienteNome = elementoNome ? elementoNome.innerText : 'Paciente';
+
+                App.darBaixa(pacienteId, pacienteNome);
+
+            });
+        }
+
         App.initMasks();
         App.initCep();
         App.initValidators();

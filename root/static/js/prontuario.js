@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('prontuarioForm');
+
     if (form) {
         form.addEventListener('submit', async function (event) {
             event.preventDefault();
@@ -88,7 +89,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const dados = {
         'nome': 'Testando',
         'data_nascimento': '1990/01/01',
-        'data_internacao': '10/02/2026',
+        'data_internacao': '2026/02/10',
         'cpf': '123.456.789-09',
         'rg': '12.345.678-9',
         'cartao_sus': '123.4567.8901.2345',

@@ -34,7 +34,6 @@ class FormCargo(FlaskForm):
     nome = StringField("Cargo", validators=[DataRequired(), Unique(Cargo, Cargo.nome)])
     botao_confirmacao = SubmitField("Salvar")
 
-
 class FormFuncionario(FlaskForm):
     nome = StringField("Nome Completo", validators=[DataRequired()])
     cpf = StringField("CPF", validators=[DataRequired(), Unique(Funcionario, Funcionario.cpf)])

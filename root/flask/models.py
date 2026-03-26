@@ -107,8 +107,8 @@ class Prontuario(BaseModel, ActiveMixin, PersonMixin, AddressMixin, TimestampMix
 
     responsavel = database.Column(database.String)
     relacao = database.Column(database.String, nullable=False, default='Não Informado')
-    cpf_resp = database.Column(database.String(11), nullable=False, unique=True, default='Não Informado')
-    rg_resp = database.Column(database.String(9), nullable=False, unique=True, default='Não Informado')
+    cpf_resp = database.Column(database.String(11), nullable=False, unique=True)
+    rg_resp = database.Column(database.String(9), nullable=False, unique=True)
     contato = database.Column(database.String, nullable=False, default='Não Informado')
     contato_dois = database.Column(database.String, nullable=True, default='Não Informado')
     contrib = database.Column(database.String, nullable=True, default='SUS')
@@ -156,6 +156,7 @@ class Prontuario(BaseModel, ActiveMixin, PersonMixin, AddressMixin, TimestampMix
         campos_data = [
             'data_nascimento', 'data_internacao'
         ]
+
 
         data = {campo: fmt_str(getattr(self, campo)) for campo in campos_texto}
         data.update({campo: fmt_date(getattr(self,campo)) for campo in campos_data})

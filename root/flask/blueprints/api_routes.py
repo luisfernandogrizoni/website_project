@@ -85,6 +85,21 @@ def edicao_prontuario(id):
     data = request.get_json()
 
     try:
+        dados_sensiveis = ['cpf', 'rg', 'cpf_resp', 'rg_resp']
+        for dicionario in dados_sensiveis:
+            dado = data.get(dicionario)
+            if dado:
+                coluna_sql = getattr(Prontuario, dicionario)
+                conflito = Prontuario.query.filter(
+                    coluna_sql == dado,
+                    Prontuario.id != id
+                ).first()
+
+                if conflito:
+                    database.session.rollback()
+                    return jsonify(
+                        {'error': f'O dado {dado.upper()} inserido já existe no banco. Por favor, verifique.'}), 409
+
         prontuario.update_from_dict(data)
 
         database.session.commit()
