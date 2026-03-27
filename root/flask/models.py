@@ -94,7 +94,7 @@ class Cargo(BaseModel):
     def __repr__(self):
         return f"<Cargo {self.nome}>"
 
-class Funcionario(BaseModel, UserMixin, ActiveMixin):
+class Funcionario(PersonMixin, BaseModel, UserMixin, ActiveMixin):
     """Usuários do sistema. Herda Soft Delete (ActiveMixin) e Funções de Login (UserMixin)."""
     contratacao = database.Column(database.String, nullable=False)
     email = database.Column(database.String, nullable=False, unique=True)
@@ -140,7 +140,7 @@ class Consulta(BaseModel):
 
 class Prontuario(BaseModel, ActiveMixin, PersonMixin, AddressMixin, TimestampMixin):
     funcionario_id = database.Column(database.Integer, database.ForeignKey('funcionario.id'), nullable=False)
-    convenio_id = database.Column(database.Integer, database.ForeignKey('convenio.id'), nullable=False)
+    convenio_id = database.Column(database.Integer, database.ForeignKey('convenios.id'), nullable=False)
 
     data_internacao = database.Column(database.DateTime, nullable=False, default=datetime.now)
     data_saida = database.Column(database.Date, nullable=True)
