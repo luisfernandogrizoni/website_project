@@ -15,7 +15,7 @@
         {{ form.csrf_token }}
 
         {% if current_user.cargo_obj.nome in ['Admin'] %}
-            <button type="button" onclick="autoPreencher()" class="btn btn-primary">Preencher</button>
+            <button type="button" id="btnAutoPreencher" class="btn btn-primary">Preencher</button>
         {% endif %}
 
         <div class="form-step" id="step-1">

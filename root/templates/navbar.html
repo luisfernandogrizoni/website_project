@@ -12,7 +12,7 @@
         <a href="{{ url_for('social.prontuario') }}" class="tab-item">Nova Admissão</a>
         <a href="{{ url_for('social.dados') }}" class="tab-item">Lista de Internos</a>
         <a href="{{ url_for('social.agenda') }}" class="tab-item">Agenda</a>
-        {% if current_user.cargo_obj.nome in ['Admin'] %}
+        {% if current_user.is_authenticated and current_user.cargo_obj.nome in ['Admin'] %}
             <a href="{{ url_for('admin.novo_funcionario') }}" class="tab-item">Cadastrar Funcionário</a>
         {% endif %}
     </div>

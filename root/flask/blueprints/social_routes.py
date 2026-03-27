@@ -43,9 +43,9 @@ def dados():
         Dashboard de Prontuários.
         Separa logicamente os pacientes ativos dos inativos para não sobrecarregar as tabelas do front-end.
     """
-        ativos = Prontuario.query.filter_by(ativo=True).all()
-        inativos = Prontuario.query.filter_by(ativo=False).order_by(Prontuario.data_saida.desc()).all()
-        return render_template("dados.html", lista_ativos=ativos, lista_inativos=inativos)
+    ativos = Prontuario.query.filter_by(ativo=True).all()
+    inativos = Prontuario.query.filter_by(ativo=False).order_by(Prontuario.data_saida.desc()).all()
+    return render_template("dados.html", lista_ativos=ativos, lista_inativos=inativos)
 
 @social_bp.route("/agenda")
 @login_required
