@@ -9,12 +9,19 @@ from root.flask.forms import FormConsulta
 from root.flask.models import Consulta, Funcionario, Categoria, Prontuario
 from root.flask.utils import roles_required, limpar_numeros, db_persist
 
+# ------------------- API RESTFUL (Comunicação Assíncrona) ------------------- #
+
 api_bp = Blueprint('api', __name__)
 url_prefix = '/api'
 
 @api_bp.route("/api/agendamentos")
 @roles_required(['Admin', 'Social'])
 def api_agendamentos():
+    """
+        Endpoint de Leitura (GET).
+        Faz um JOIN entre Consulta, Funcionario e Categoria para formatar os dados
+        exatamente como a biblioteca do Calendário no front-end exige.
+    """
     resultados = database.session.query(
         Consulta, Funcionario, Categoria
     ).join(
@@ -47,6 +54,11 @@ def api_agendamentos():
 @api_bp.route("/api/agendamentos/novo", methods=["POST"])
 @roles_required(['Admin', 'Social'])
 def api_criar_agendamento():
+    """
+        Endpoint de Leitura (GET).
+        Faz um JOIN entre Consulta, Funcionario e Categoria para formatar os dados
+        exatamente como a biblioteca do Calendário no front-end exige.
+    """
     form = FormConsulta()
     form.funcionario.choices = [(f.id, f.nome) for f in Funcionario.query.all()]
     form.categoria.choices = [(c.id, c.tipo) for c in Categoria.query.all()]
@@ -81,10 +93,33 @@ def api_detalhes_paciente(id):
 @api_bp.route('/api/paciente/<int:id>/edicao', methods=['PATCH'])
 @roles_required(['Admin', 'Social'])
 def edicao_prontuario(id):
+    """
+        Endpoint de Atualização Parcial (PATCH).
+        Aplica a lógica de 'Early Return' para validar unicidade no banco
+        antes de tentar atualizar o objeto.
+    """
     prontuario = Prontuario.query.get_or_404(id)
     data = request.get_json()
 
     try:
+        # 1. Validação Dinâmica de Colisões (Evita duplicar CPFs de outras pessoas)
+        dados_sensiveis = ['cpf', 'rg', 'cpf_resp', 'rg_resp']
+        for dicionario in dados_sensiveis:
+            dado = data.get(dicionario)
+            if dado:
+                coluna_sql = getattr(Prontuario, dicionario)
+                conflito = Prontuario.query.filter(
+                    coluna_sql == dado,
+                    Prontuario.id != id
+                ).first()
+
+                if conflito:
+                    database.session.rollback()
+                    # Early Return com status 409 (Conflict)
+                    return jsonify(
+                        {'error': f'O dado {dado.upper()} inserido já existe no banco. Por favor, verifique.'}), 409
+
+        # 2. Persistência
         prontuario.update_from_dict(data)
 
         database.session.commit()
@@ -99,6 +134,10 @@ def edicao_prontuario(id):
 @api_bp.route('/api/paciente/<int:id>/baixa', methods=['PATCH'])
 @roles_required(['Admin', 'Social'])
 def inativar_prontuario(id):
+    """
+        Implementação prática do padrão 'Soft Delete'.
+        Não faz 'delete' no banco, apenas inativa e regista o motivo e data da saída (Auditoria).
+    """
     prontuario = Prontuario.query.get_or_404(id)
     data = request.get_json()
 

@@ -5,6 +5,8 @@ from root.flask.models import Prontuario, Categoria, Funcionario, Consulta
 from root.flask.forms import FormProntuario, FormConsulta
 from root.flask.utils import limpar_numeros, roles_required, db_persist
 
+# ------------------- OPERAÇÕES SOCIAIS (Apresentação) ------------------- #
+
 social_bp = Blueprint('social', __name__)
 url_prefix = '/social'
 
@@ -14,8 +16,10 @@ def prontuario():
     form = FormProntuario()
 
     if form.validate_on_submit():
-            prontuario = Prontuario(funcionario_id=current_user.id)
+            prontuario = Prontuario(funcionario_id=current_user.id) # Rastreabilidade: Quem criou?
             form.populate_obj(prontuario)
+
+            # Limpeza manual de dados críticos antes de persistir
             prontuario.cpf = limpar_numeros(form.cpf.data)
             prontuario.rg = limpar_numeros(form.rg.data)
             prontuario.cpf_resp = limpar_numeros(form.cpf_resp.data)
@@ -35,9 +39,13 @@ def prontuario():
 @social_bp.route("/dados", methods=["GET", "POST"])
 @login_required
 def dados():
-        ativos = Prontuario.query.filter_by(ativo=True).all()
-        inativos = Prontuario.query.filter_by(ativo=False).order_by(Prontuario.data_saida.desc()).all()
-        return render_template("dados.html", lista_ativos=ativos, lista_inativos=inativos)
+    """
+        Dashboard de Prontuários.
+        Separa logicamente os pacientes ativos dos inativos para não sobrecarregar as tabelas do front-end.
+    """
+    ativos = Prontuario.query.filter_by(ativo=True).all()
+    inativos = Prontuario.query.filter_by(ativo=False).order_by(Prontuario.data_saida.desc()).all()
+    return render_template("dados.html", lista_ativos=ativos, lista_inativos=inativos)
 
 @social_bp.route("/agenda")
 @login_required

@@ -1,4 +1,45 @@
+import click
+from flask.cli import with_appcontext
 
+
+@click.command("popular-banco")
+@with_appcontext
+def popular_banco_command():
+    """Popula o banco de dados com os cargos e o usuário Admin."""
+    from root.flask.extensions import database, bcrypt
+    from root.flask.models import Cargo, Funcionario
+
+    print("--- Criando Cargos ---")
+    c_admin = Cargo(nome='Admin')
+    c_social = Cargo(nome='Assistente Social')
+    c_adm = Cargo(nome='Administrativo')
+
+    database.session.add_all([c_admin, c_social, c_adm])
+    database.session.commit()
+    print(f"✓ Cargos criados! ID Admin: {c_admin.id}")
+
+    print("--- Criando Usuários ---")
+    senha_padrao = bcrypt.generate_password_hash('123456').decode('utf-8')
+
+    admin = Funcionario(
+        nome='Administrador Supremo',
+        cpf='000.000.000-00',
+        rg='00.000.000-0',
+        contratacao='CLT',
+        email='admin@sistema.com',
+        senha=senha_padrao,
+        cargo_id=c_admin.id,
+        ativo=True
+    )
+
+    try:
+        database.session.add(admin)
+        database.session.commit()
+        print("Sucesso! Tabelas populadas.")
+        print("Login Admin: admin@sistema.com | Senha: 123456")
+    except Exception as e:
+        database.session.rollback()
+        print(f"Erro ao salvar: {e}")
 
 def gerador_senha():
     import secrets
@@ -40,51 +81,6 @@ def gerador_senha():
 
             salvar_senha(nova_senha)
 
-def popular_banco():
-    from root.flask.extensions import database, bcrypt
-    from root.flask.models import Cargo, Funcionario
-
-    print("--- Criando Cargos ---")
-    c_admin = Cargo(nome='Admin')
-    c_social = Cargo(nome='Assistente Social')
-    c_adm = Cargo(nome='Administrativo')
-
-    database.session.add_all([c_admin, c_social, c_adm])
-    database.session.commit()
-    print(f"✓ Cargos criados! ID Admin: {c_admin.id}")
-
-    print("--- Criando Usuários ---")
-
-    senha_padrao = bcrypt.generate_password_hash('123456').decode('utf-8')
-
-    admin = Funcionario(
-        nome='Administrador Supremo',
-        cpf='000.000.000-00',
-        rg='00.000.000-0',
-        contratacao='CLT',
-        email='admin@sistema.com',
-        senha=senha_padrao,
-        cargo_id=c_admin.id,
-        ativo=True
-    )
-    assistente = Funcionario(
-        nome='Maria Assistente',
-        cpf='111.111.111-11',
-        rg='11.111.111-1',
-        contratacao='Voluntário',
-        email='maria@sistema.com',
-        senha=senha_padrao,
-        cargo_id=c_social.id,
-        ativo=True
-    )
-    try:
-        database.session.add_all([admin, assistente])
-        database.session.commit()
-        print("Sucesso! Tabelas populadas.")
-        print("Login Admin: admin@sistema.com | Senha: 123456")
-    except Exception as e:
-        database.session.rollback()
-        print(f"Erro ao salvar (provavelmente dados duplicados): {e}")
 
 def limpar_numeros(valor: str | None) -> str | None:
     import re

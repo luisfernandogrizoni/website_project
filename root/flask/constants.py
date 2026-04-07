@@ -15,6 +15,13 @@ CONVENIO = [
     ('outro', 'Outro')
 ]
 
+MOTIVO_SAIDA = [
+    ('conclusao', 'Conclusão'),
+    ('desistencia', 'Desistência'),
+    ('exclusao', 'Exclusão'),
+    ('obito', 'Óbito'),
+]
+
 UF = [
     ('AC', 'Acre'), ('AL', 'Alagoas'), ('AP', 'Amapá'), ('AM', 'Amazonas'),
     ('BA', 'Bahia'), ('CE', 'Ceará'), ('DF', 'Distrito Federal'), ('ES', 'Espírito Santo'),

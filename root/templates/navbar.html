@@ -1,11 +1,20 @@
-<nav class="header-wrapper">
-    <div class="header-brand">
-        <a href="{{ url_for('main.inicio') }}" class="header-logo-link">
+<nav class="sidebar-wrapper">
+    <div class="sidebar-brand">
+        <a href="{{ url_for('main.inicio') }}" class="sidebar-logo-link">
             <img src="{{ url_for('static', filename='images/logo.png') }}"
                  alt="Logo Associação Restauração"
-                 class="header-logo-img">
+                 class="sidebar-logo-img">
         </a>
-            <span class="header-text">Associação Restauração</span>
+            <span class="sidebar-text">Associação Restauração</span>
     </div>
-</nav>
 
+    <div class="sidebar-tabs-container">
+        <a href="{{ url_for('social.prontuario') }}" class="tab-item">Nova Admissão</a>
+        <a href="{{ url_for('social.dados') }}" class="tab-item">Lista de Internos</a>
+        <a href="{{ url_for('social.agenda') }}" class="tab-item">Agenda</a>
+        {% if current_user.is_authenticated and current_user.cargo_obj.nome in ['Admin'] %}
+            <a href="{{ url_for('admin.novo_funcionario') }}" class="tab-item">Cadastrar Funcionário</a>
+        {% endif %}
+    </div>
+
+</nav>

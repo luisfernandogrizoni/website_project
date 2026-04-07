@@ -24,12 +24,10 @@
 
     .app-layout {
         display: grid;
-        grid-template-columns: 1fr;
-        grid-template-rows: 7rem 1fr;
+        grid-template-columns: 16rem 1fr;
         min-height: 100vh;
         grid-template-areas:
-            "header"
-            "content";
+            "sidebar content";
     }
 
     .content {
@@ -41,20 +39,22 @@
     a { text-decoration: none; color: inherit; }
 
 
-    .header-area {
-        grid-area: header;
+    .sidebar-area {
+        grid-area: sidebar;
         display: flex;
+        flex-direction: column;
         background: var(--c-slate);
-        border-bottom: 0.2rem solid var(--c-slate-hover);
+        border-right: 0.2rem solid var(--c-slate-hover);
         align-items: center;
         height: 100%;
     }
 
 
-    .nav-tabs-container {
+    .sidebar-tabs-container {
         display: flex;
+        flex-direction: column;
         gap: 1.5rem;
-        margin-left: 3.2rem;
+        margin-left: 1.1rem;
     }
 
     .tab-item {
@@ -77,37 +77,38 @@
         font-weight: 600;
     }
 
-    .header-brand {
+    .sidebar-brand {
         display: flex;
         align-items: center;
-        padding-right: var(--header-logo-gap);
-        margin-left: 3.2rem;
+        flex-direction: column;
+        padding: var(--header-logo-gap);
+
     }
 
-    .header-text {
+    .sidebar-text {
         color: var(--c-surface);
         font-weight: bold;
         margin-top: 1rem;
         margin-left: 1rem;
     }
 
-    .header-logo-link {
+    .sidebar-logo-link {
         display: flex;
         height: var(--header-logo-height);
         transition: transform 0.2s ease;
     }
 
-    .header-logo-link:hover {
+    .sidebar-logo-link:hover {
         transform: scale(1.05);
     }
 
-    .header-logo-img {
+    .sidebar-logo-img {
         height: 100%;
         width: auto;
         object-fit: contain;
     }
 
-    .header-wrapper {
+    .sidebar-wrapper {
         display: flex;
         flex-direction: column;
         align-items: flex-start;
@@ -115,12 +116,12 @@
         gap: 1rem;
     }
 
-    .header-hidden {
+    .sidebar-hidden {
         display: none !important;
     }
 
-    .header-hidden ~ .content,
-    .app-layout:has(.header-hidden) {
+    .siedebar-hidden ~ .content,
+    .app-layout:has(.sidebar-hidden) {
         grid-template-rows: 1fr;
     }
 

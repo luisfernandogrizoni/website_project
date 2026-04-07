@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (form) {
         form.addEventListener('submit', async function (e) {
             e.preventDefault();
-            App.mostrarLoading('A guardar Agendamento...');
+            App.mostrarLoading('...');
 
             try {
                 const calendarDiv = document.getElementById('calendar'); // Bug corrigido aqui!
@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 await App.api.request(urlSalvar, 'POST', FormData, true);
 
                 App.fecharAlerta();
-                App.mostrarSucesso('Agendamento salvo com sucesso!');
+                App.mostrarSucesso('Agendamento salvo com sucesso!', true);
                 window.fecharModal();
                 form.reset();
 
