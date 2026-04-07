@@ -1,13 +1,31 @@
 {% macro render_field(field) %}
-<div class="form-group">
-    {{ field.label }}
+    <div class="form-group">
+        {{ field.label }}
+        {{ field(**kwargs) }}
 
-    {{ field(**kwargs) }}
+        {% if field.errors %}
+            {% for error in field.errors %}
+                <span class="error-message">{{ error }}</span>
+            {% endfor %}
+        {% endif %}
+    </div>
+{% endmacro %}
 
-    {% if field.errors %}
-        {% for error in field.errors %}
-            <span class="error-message">{{ error }}</span>
-        {% endfor %}
-    {% endif %}
-</div>
+{% macro render_badge_convenio(convenio) %}
+    {% set classe = 'badge-padrao' %}
+    {% set conv_lower = convenio | lower %}
+
+        {% if 'social' in conv_lower %}{% set classe = 'badge-social' %}
+            <span class="badge {{ classe }}">Social</span>
+        {% elif 'particular' in conv_lower %}{% set classe = 'badge-particular' %}
+            <span class="badge {{ classe }}">Particular</span>
+        {% elif 'capsAD' in conv_lower %}{% set classe = 'badge-caps' %}
+            <span class="badge {{ classe }}">Caps AD</span>
+        {% elif 'taruma' in conv_lower %}{% set classe = 'badge-taruma' %}
+            <span class="badge {{ classe }}">Convênio Tarumã</span>
+        {% else %}
+        <span class="badge {{ classe }}">{{ p.convenio }}</span>
+        {% endif %}
+
+    <span class="badge {{ classe }}">{{ convenio | title }}</span>
 {% endmacro %}

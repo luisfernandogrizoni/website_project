@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% include 'components/dashboard.html' %}
+{% from "_macros.html" import render_badge_convenio %}
+{% block titulo %}Lista de Internos{% endblock %}
+
+{% block body %}
+    <div class="container">
+
+        <div class="nav-tabs">
+            <div class="nav-tab active" data-target="tab-ativos">Internos</div>
+            <div class="nav-tab" data-target="tab-inativos">Ex-Internos</div>
+        </div>
+
+        <div id="tab-ativos" class="tab-content active table-container">
+            <table id="tabelaAtivos" class="stripe hover">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th class="mobile-hide">Idade</th>
+                        <th class="mobile-hide">CPF</th>
+                        <th>Convênio</th>
+                        <th class="mobile-hide">Cidade</th>
+                        <th class="mobile-hide">Responsável</th>
+                        <th class="mobile-hide">Entrada</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for p in lista_ativos %}
+                    <tr>
+                        <td
+                            data-label="Nome"
+                            class="td-clicavel action-trigger"
+                            data-action="abrir_dashboard"
+                            data-paciente-id="{{ p.id }}">
+                            {{ p.nome.title() }}
+                        </td>
+                        <td class="mobile-hide" data-label="Idade">{{ p.idade }}</td>
+                        <td class="mobile-hide" data-label="CPF">{{ p.cpf }}</td>
+                        <td data-label="Convênio">{ render_badge_convenio(p.convenio) }}</td>
+                        <td class="mobile-hide" data-label="Cidade">{{ p.cidade }}</td>
+                        <td class="mobile-hide" data-label="Responsável">{{ p.responsavel}}</td>
+                        <td class="mobile-hide" data-label="Entrada">{{ p.data_internacao.strftime('%d/%m/%Y') }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div id="tab-inativos" class="tab-content table-container">
+            <table id="tabelaInativos" class="stripe hover" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th class="mobile-hide">Idade</th>
+                        <th class="mobile-hide">Convênio</th>
+                        <th class="mobile-hide">Saída</th>
+                        <th>Permanência</th>
+                        <th>Motivo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for p in lista_inativos %}
+                    <tr>
+                     <td data-label="Nome"
+                        class="td-clicavel action-trigger"
+                        data-action="abrir_dashboard"
+                        data-paciente-id="{{ p.id }}">
+                        {{ p.nome.title() }}
+                     </td>
+                    <td>{{ p.idade }}</td>
+                    <td data-label="Convênio">{{ render_badge_convenio(p.convenio) }}</td>
+                    <td>{{ p.data_saida.strftime('%d/%m/%Y') if p.data_saida else '-' }}</td>
+                    <td>{{ p.tempo_permanencia }}</td>
+                    <td>{{ p.motivo_saida }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+{% block scripts %}
+    <script src="{{ url_for('static', filename='js/dados.js') }}"></script>
+{% endblock %}
+{% endblock %}

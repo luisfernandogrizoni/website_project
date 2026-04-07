@@ -26,7 +26,7 @@ def cargo_novo():
 
     elif request.method == 'POST':
         flash('Houve um erro no formulário. Verifique os campos em vermelho.', 'danger')
-    return render_template("cargos.html", form=form)
+    return render_template("cadastro_cargos.html", form=form)
 
 @admin_bp.route("/funcionario/novo", methods=["GET", "POST"])
 @roles_required(['Admin'])
@@ -56,4 +56,4 @@ def novo_funcionario():
     elif request.method == 'POST':
         flash('Houve um erro no formulário. Verifique os campos em vermelho.', 'danger')
 
-    return render_template("funcionarios.html", form_funcionario=form)
+    return render_template("cadastro_funcionario.html", form_funcionario=form)

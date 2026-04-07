@@ -6,7 +6,7 @@ from flask_wtf import csrf
 
 from root.flask import database
 from root.flask.forms import FormConsulta
-from root.flask.models import Consulta, Funcionario, Categoria, Prontuario
+from root.flask.models import Consulta, Funcionario, Prontuario
 from root.flask.utils import roles_required, limpar_numeros, db_persist
 
 # ------------------- API RESTFUL (Comunicação Assíncrona) ------------------- #
@@ -14,12 +14,13 @@ from root.flask.utils import roles_required, limpar_numeros, db_persist
 api_bp = Blueprint('api', __name__)
 url_prefix = '/api'
 
+#todo: repensar a lógica
 @api_bp.route("/api/agendamentos")
 @roles_required(['Admin', 'Social'])
 def api_agendamentos():
     """
         Endpoint de Leitura (GET).
-        Faz um JOIN entre Consulta, Funcionario e Categoria para formatar os dados
+        Faz um JOIN entre Consulta, Funcionariopara formatar os dados
         exatamente como a biblioteca do Calendário no front-end exige.
     """
     resultados = database.session.query(

@@ -7,7 +7,7 @@ from root.flask.extensions import database, login_manager
 from flask_login import UserMixin
 
 base = declarative_base()
-
+#todo: adicionar captação de id de funcionário automaticamente em todas as tabelas
 # ------------------- UTILIDADES E BASE ------------------- #
 
 @login_manager.user_loader
@@ -115,34 +115,23 @@ class Funcionario(PersonMixin, BaseModel, UserMixin, ActiveMixin):
 
 class Convenios(BaseModel, ActiveMixin, TimestampMixin):
     nome = database.Column(database.String, nullable=False)
-    # Relação 1:N (Um convenio para muitos funcionários)
     internos = database.relationship("Prontuario", backref='convenio_obj', lazy=True, cascade="all, delete-orphan")
 
-class Categoria(BaseModel):
-    tipo = database.Column(database.String(100), nullable=False, unique=True)
-    consultas = database.relationship('Consulta', backref='categoria', lazy=True, cascade="all, delete-orphan")
-
-    def __repr__(self):
-        return f"Categoria{self.tipo}"
-
 class Consulta(BaseModel):
-    nome = database.Column(database.String(200), nullable=False)
-    descricao = database.Column(database.Text, nullable=True)
+    primeiro_contato = database.Column(database.DateTime, nullable=False, default=datetime.now)
     triagem = database.Column(database.DateTime, nullable=True)
-    internacao = database.Column(database.DateTime, nullable=True)
-    hora = database.Column(database.DateTime, nullable=False, default=datetime.now)
+    modalidade = database.Column(database.String(100), nullable=False)
+    descricao = database.Column(database.Text, nullable=True)
 
-    categoria_id = database.Column(database.Integer, database.ForeignKey('categoria.id'), nullable=False)
+    prontuario_id = database.Column(database.Integer, database.ForeignKey('prontuario.id'), nullable=False)
     funcionario_id = database.Column(database.Integer, database.ForeignKey('funcionario.id'), nullable=False)
-
-    def __repr__(self):
-        return f"Nome: {self.nome}, Triagem: {self.triagem}, Internação: {self.internacao}, Hora: {self.hora}, Categoria: {self.categoria_id})"
 
 class Prontuario(BaseModel, ActiveMixin, PersonMixin, AddressMixin, TimestampMixin):
     funcionario_id = database.Column(database.Integer, database.ForeignKey('funcionario.id'), nullable=False)
     convenio_id = database.Column(database.Integer, database.ForeignKey('convenios.id'), nullable=False)
+    consulta_id = database.relationship('Consulta', backref='consulta', lazy=True, cascade="all, delete-orphan")
 
-    data_internacao = database.Column(database.DateTime, nullable=False, default=datetime.now)
+    internacao = database.Column(database.DateTime, nullable=False, default=datetime.now)
     data_saida = database.Column(database.Date, nullable=True)
     motivo_saida = database.Column(database.String, nullable=True)
 

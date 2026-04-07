@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for, jsonify, current_app
 from flask_login import login_required, current_user
 from root.flask import database
-from root.flask.models import Prontuario, Categoria, Funcionario, Consulta
+from root.flask.models import Prontuario, Funcionario, Consulta
 from root.flask.forms import FormProntuario, FormConsulta
 from root.flask.utils import limpar_numeros, roles_required, db_persist
 

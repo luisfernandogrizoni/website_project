@@ -3,7 +3,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, DateField, SelectField, DateTimeField, TextAreaField, FloatField
 from wtforms.fields.numeric import IntegerField
 from wtforms.validators import DataRequired, Email, EqualTo, Length, ValidationError, Optional
-from root.flask.models import Funcionario, Prontuario, Categoria, Cargo
+from root.flask.models import Funcionario, Prontuario, Cargo
 from .constants import ESTADO_CIVIL, CONVENIO, UF,ESCOLARIDADE
 
 # ------------------- CAMPOS PERSONALIZADOS (Overrides) ------------------- #
@@ -124,13 +124,6 @@ class FormProntuario(FlaskForm):
     contato_dois = StringField("Contato Secundário", validators=[Optional()])
 
     botao_confirmacao = SubmitField("Concluir")
-
-
-class FormCategoria(FlaskForm):
-    """Gerência de Tipos de Consulta/Triagem."""
-    tipo = StringField("Nome da Categoria", validators=[DataRequired(), Unique(Categoria, Categoria.tipo)])
-    botao_confirmacao = SubmitField("Criar Categoria")
-
 
 class FormConsulta(FlaskForm):
     """Agendamentos. Relaciona dados temporais com as FKs (Profissional e Categoria)."""
