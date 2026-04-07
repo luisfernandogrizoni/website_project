@@ -27,8 +27,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // 2. Submissão do Formulário Principal
     // --------------------------------------
     // Inicialização do controlador da caixa 'conjuge'
-        const formUI = new FormUIController('estado_civil', 'conjuge_container');
-        formUI.inicializador();
+    const formUI = new FormUIController('estado_civil', 'conjuge_container');
+    formUI.inicializador();
 
     // Inicialização das máscaras de documento
     mascaras.initMasks();
