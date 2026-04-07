@@ -13,7 +13,7 @@ main_bp = Blueprint('main', __name__)
 @login_required
 def inicio():
     """Renderiza a tela inicial. Protegido para garantir que apenas utilizadores logados acessem."""
-    return render_template("inicio.html")
+    return render_template("components/inicio.html")
 
 @main_bp.route("/login", methods=["GET", "POST"])
 def login():
@@ -39,7 +39,7 @@ def login():
                 return redirect(url_for("main.login"))
         else:
             flash("E-mail não está cadastrado. Verifique suas credenciais ou entre em contato com o suporte.", "danger")
-    return render_template("login.html", form=form_login)
+    return render_template("auth/login.html", form=form_login)
 
 @main_bp.route("/logout")
 @login_required

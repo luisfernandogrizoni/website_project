@@ -8,6 +8,7 @@ from flask_login import UserMixin
 
 base = declarative_base()
 #todo: adicionar captação de id de funcionário automaticamente em todas as tabelas
+
 # ------------------- UTILIDADES E BASE ------------------- #
 
 @login_manager.user_loader

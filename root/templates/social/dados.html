@@ -25,23 +25,6 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for p in lista_ativos %}
-                    <tr>
-                        <td
-                            data-label="Nome"
-                            class="td-clicavel action-trigger"
-                            data-action="abrir_dashboard"
-                            data-paciente-id="{{ p.id }}">
-                            {{ p.nome.title() }}
-                        </td>
-                        <td class="mobile-hide" data-label="Idade">{{ p.idade }}</td>
-                        <td class="mobile-hide" data-label="CPF">{{ p.cpf }}</td>
-                        <td data-label="Convênio">{ render_badge_convenio(p.convenio) }}</td>
-                        <td class="mobile-hide" data-label="Cidade">{{ p.cidade }}</td>
-                        <td class="mobile-hide" data-label="Responsável">{{ p.responsavel}}</td>
-                        <td class="mobile-hide" data-label="Entrada">{{ p.data_internacao.strftime('%d/%m/%Y') }}</td>
-                    </tr>
-                    {% endfor %}
                 </tbody>
             </table>
         </div>
@@ -59,21 +42,6 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for p in lista_inativos %}
-                    <tr>
-                     <td data-label="Nome"
-                        class="td-clicavel action-trigger"
-                        data-action="abrir_dashboard"
-                        data-paciente-id="{{ p.id }}">
-                        {{ p.nome.title() }}
-                     </td>
-                    <td>{{ p.idade }}</td>
-                    <td data-label="Convênio">{{ render_badge_convenio(p.convenio) }}</td>
-                    <td>{{ p.data_saida.strftime('%d/%m/%Y') if p.data_saida else '-' }}</td>
-                    <td>{{ p.tempo_permanencia }}</td>
-                    <td>{{ p.motivo_saida }}</td>
-                    </tr>
-                    {% endfor %}
                 </tbody>
             </table>
         </div>
