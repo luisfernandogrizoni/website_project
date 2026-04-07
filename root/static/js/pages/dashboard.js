@@ -5,12 +5,37 @@ import { maskCPF, maskRG, maskSUS, maskData, formatarTexto } from '../utils/form
 export class DashboardController {
 
     /**
-     * @param {Object} apiService - Instância injetada para comunicação HTTP.
-     * @param {Object} notificationService - Instância injetada para alertas.
+     * Inicializa o controlador do Dashboard mapeando as ferramentas e o DOM.
+     * * @param {Object} apiService - Instância injetada para comunicação HTTP.
+     * @param {Object} notificationService - Instância injetada para alertas de UI.
+     * @param {Object} configIds - Dicionário contendo os IDs dos elementos HTML estruturais.
+     * @param {string} configIds.modalId - ID do container principal do modal.
+     * @param {string} configIds.nomeId - ID do elemento que exibe o nome do paciente.
+     * @param {string} configIds.badgeAtivoId - ID do crachá principal de status (Ativo/Inativo).
+     * @param {string} configIds.boxInativoId - ID da caixa que contém os detalhes da alta/baixa.
+     * @param {string} configIds.dataSaidaId - ID do elemento de texto da data de saída.
+     * @param {string} configIds.motivoId - ID do elemento de texto do motivo da saída.
+     * @param {string} configIds.btnEditId - ID do botão de redirecionamento para edição.
+     * @param {string} configIds.btnInactivateId - ID do botão de redirecionamento para baixa.
      */
-    constructor(apiService, notificationService) {
-        this.api = apiService;
-        this.notificacao = notificationService
+
+    constructor(apiService, notificationService, configIds) {
+            this.api = apiService;
+            this.notificacao = notificationService;
+
+            // Mapeamento dos elementos estruturais DOM salvos na memória da Classe
+            this.modal = document.getElementById(configIds.modalId);
+            this.nomeEl = document.getElementById(configIds.nomeId);
+
+            // Elementos de Status
+            this.badgeAtivo = document.getElementById(configIds.badgeAtivoId);
+            this.boxInativo = document.getElementById(configIds.boxInativoId);
+            this.elDataSaida = document.getElementById(configIds.dataSaidaId);
+            this.elMotivo = document.getElementById(configIds.motivoId);
+
+            // Botões de Ação
+            this.btnEdit = document.getElementById(configIds.btnEditId);
+            this.btnInactivate = document.getElementById(configIds.btnInactivateId);
     }
 
     /**
@@ -19,15 +44,13 @@ export class DashboardController {
      * @param {number|string} id - O identificador único do paciente.
      */
     async abrir(id) {
-        const modal = document.getElementById('modalDashboard');
-        const nomeEl = document.getElementById('d-nome');
 
         // 1. Lógica Visual de Entrada: Mostra o modal e o estado de "Loading"
-        if (modal) {
-            modal.style.display = 'flex';
-            setTimeout(() => modal.classList.add('show'), 10);
+        if (this.modal) {
+            this.modal.style.display = 'flex';
+            setTimeout(() => this.modal.classList.add('show'), 10);
         }
-        if (nomeEl) nomeEl.innerText = "Buscando dados...";
+        if (this.nomeEl) this.nomeEl.innerText = "Buscando dados...";
 
         // 2. Lógica de Dados: Busca na API e orquestra
         try {
@@ -47,10 +70,9 @@ export class DashboardController {
      * Lida com a transição CSS e oculta o modal da tela.
      */
     fechar() {
-        const modal = document.getElementById('modalDashboard');
-        if (modal) {
-            modal.classList.remove('show');
-            setTimeout(() => modal.style.display = 'none', 300);
+        if (this.modal) {
+            this.modal.classList.remove('show');
+            setTimeout(() => this.modal.style.display = 'none', 300);
         }
     }
 
@@ -145,30 +167,24 @@ export class DashboardController {
      * @param {Object} data - Objeto do paciente para checar a propriedade booleana 'ativo'.
      */
     #configurarStatus(data) {
-        const boxInativo = document.getElementById('d-box-inativo');
-        const badgeAtivo = document.getElementById('d-badge-ativo');
-
-        if (badgeAtivo) {
+        if (this.badgeAtivo) {
             if (data.ativo) {
-                badgeAtivo.className = "badge badge-padrao";
-                badgeAtivo.innerText = 'Ativo';
+                this.badgeAtivo.className = "badge badge-padrao";
+                this.badgeAtivo.innerText = 'Ativo';
             } else {
-                badgeAtivo.className = "badge";
-                badgeAtivo.innerText = 'Inativo';
+                this.badgeAtivo.className = "badge";
+                this.badgeAtivo.innerText = 'Inativo';
             }
         }
 
-        if (boxInativo) {
+        if (this.boxInativo) {
             if (data.ativo) {
-                boxInativo.style.display = 'none';
+                this.boxInativo.style.display = 'none';
             } else {
-                boxInativo.style.display = 'block';
+                this.boxInativo.style.display = 'block';
 
-                const elDataSaida = document.getElementById('d-data-saida');
-                const elMotivo = document.getElementById('d-motivo-saida');
-
-                if (elDataSaida) elDataSaida.innerText = maskData(data.data_saida);
-                if (elMotivo) elMotivo.innerText = data.motivo_saida || 'Motivo não informado';
+                if (this.elDataSaida) this.elDataSaida.innerText = maskData(data.data_saida);
+                if (this.elMotivo) this.elMotivo.innerText = data.motivo_saida || 'Motivo não informado';
             }
         }
     }
@@ -178,14 +194,12 @@ export class DashboardController {
      * @param {number|string} id - O identificador do paciente para a rota HTTP.
      */
     #configBotoes(id) {
-        const btnEdit = document.getElementById('btnEdit');
-        if (btnEdit) {
-            btnEdit.href = `/paciente/${id}/editar`;
+        if (this.btnEdit) {
+            this.btnEdit.href = `/paciente/${id}/editar`;
         }
 
-        const btnInactivate = document.getElementById('btnInactivate');
-        if (btnInactivate) {
-            btnInactivate.href = `/paciente/${id}/baixa`
+        if (this.btnInactivate) {
+            this.btnInactivate.href = `/paciente/${id}/baixa`
         }
 
     }
