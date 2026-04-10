@@ -1,0 +1,192 @@
+.table-container {
+    background-color: var(--c-surface);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-subtle);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    max-height: 600px;
+    overflow-y: auto;
+}
+
+table.dataTable {
+    width: 100% !important;
+    margin: 0 auto;
+    text-align: center;
+}
+
+table.dataTable.no-footer {
+    border-bottom: 1px solid var(--c-border) !important;
+}
+
+table.dataTable thead th {
+    background-color: var(--c-bg);
+    color: var(--c-slate);
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid var(--c-border) !important;
+    padding: 12px 10px;
+}
+
+table.dataTable tbody td {
+    padding: 12px 10px;
+    font-size: 0.9rem;
+    color: var(--c-slate);
+    border-bottom: 1px solid var(--c-border);
+    vertical-align: middle;
+}
+
+table.dataTable tbody td:first-child {
+    text-align: left !important;
+    padding-left: 20px;
+}
+
+table.dataTable.stripe tbody tr.odd,
+table.dataTable.display tbody tr.odd {
+    background-color: #ffffff;
+}
+
+table.dataTable.stripe tbody tr.even,
+table.dataTable.display tbody tr.even {
+    background-color: #f8f9fa;
+}
+
+table.dataTable tbody tr:hover {
+    background-color: #fff0f0 !important;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.dataTables_wrapper {
+    font-family: 'Inter', sans-serif;
+    color: var(--c-slate);
+    padding-bottom: 10px;
+}
+
+.dataTables_filter input,
+.dataTables_length select {
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius-md);
+    padding: 8px 12px;
+    margin-left: 10px;
+    outline: none;
+    color: var(--c-slate);
+    background-color: white;
+    transition: all 0.2s ease;
+    box-shadow: var(--shadow-subtle);
+}
+
+.dataTables_filter input:focus,
+.dataTables_length select:focus {
+    border-color: var(--c-action);
+    box-shadow: 0 0 0 3px rgba(201, 42, 42, 0.15);
+}
+
+.dataTables_wrapper .dataTables_length,
+.dataTables_wrapper .dataTables_filter {
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+}
+
+.dataTables_wrapper input,
+.dataTables_wrapper select {
+    font-family: inherit;
+    font-size: 0.9rem;
+}
+
+.dataTables_filter input:focus,
+.dataTables_length select:focus {
+    border-color: var(--c-action);
+    box-shadow: 0 0 0 2px rgba(201, 42, 42, 0.1);
+}
+
+.dataTables_wrapper .dataTables_info,
+.dataTables_wrapper .dataTables_paginate {
+    display: none;
+}
+@media screen and (max-width: 768px) {
+    .mobile-hide {
+        display: none !important;
+    }
+
+    table {
+        width: 100%;
+    }
+
+    td:first-child, th:first-child {
+        width: auto;
+    }
+
+    td:nth-child(4), th:nth-child(4) {
+        width: 1%;
+        white-space: nowrap;
+    }
+}
+
+
+.badge {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    display: inline-block;
+    vertical-align: middle;
+    padding: 10px 10px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: capitalize;
+}
+
+@media (max-width: 480px) {
+    .badge {
+        font-size: 0.7rem;
+        padding: 2px 6px;
+    }
+}
+
+.badge-particular { background-color: navy; color: var(--c-surface); }
+.badge-taruma {background-color: darkorange; color: var(--c-surface); }
+.badge-caps { background-color: crimson; color: var(--c-surface); }
+.badge-social {background-color: steelblue; color: var(--c-surface); }
+.badge-padrao { background-color: darkolivegreen; color: var(--c-surface); }
+
+.nav-tabs {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+    height: 100%;
+    border-bottom: 1px solid var(--c-border);
+    padding: 0 20px;
+    margin-bottom: 0;
+    background: white;
+    border-radius: 8px 8px 0 0;
+}
+
+.nav-tab {
+    padding: 15px 0;
+    cursor: pointer;
+    font-weight: 500;
+    color: #868E96;
+    border-bottom: 2px solid transparent;
+    transition: opacity 0.3s ease;
+}
+
+.nav-tab.active {
+    color: var(--c-action);
+    border-bottom-color: var(--c-action);
+    font-weight: 600;
+}
+
+.tab-content {
+    display: none;
+    padding: 20px;
+    background: white;
+}
+.tab-content.active {
+    display: block;
+        }

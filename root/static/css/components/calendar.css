@@ -1,0 +1,107 @@
+ #calendar {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--c-border);
+    box-shadow: var(--shadow-subtle);
+    max-width: 1100px;
+    margin: 0 auto;
+    height: 75vh;
+    min-height: 600px;
+}
+
+  .fc .fc-toolbar-title {
+    font-size: 1.75rem !important;
+    color: var(--c-slate);
+    text-transform: capitalize;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+
+.fc .fc-button {
+    background-color: white !important;
+    border: 1px solid var(--c-border) !important;
+    color: var(--c-slate) !important;
+    font-weight: 600;
+    text-transform: capitalize;
+    box-shadow: none !important;
+    border-radius: var(--radius-md) !important;
+    padding: 8px 16px !important;
+}
+
+.fc .fc-button:hover {
+    background-color: #F8F9FA !important;
+    color: var(--c-action) !important;
+    border-color: var(--c-border) !important;
+}
+
+.fc .fc-button-active {
+    background-color: var(--c-slate) !important;
+    color: white !important;
+    border-color: var(--c-slate) !important;
+}
+
+.fc .fc-button:focus {
+    box-shadow: 0 0 0 2px rgba(33, 37, 41, 0.1) !important;
+}
+
+.fc .fc-toolbar-title {
+    text-transform: capitalize !important;
+    font-size: 1.75rem !important;
+    color: #212529;
+}
+
+@media (max-width: 768px) {
+    #calendar {
+        padding: 10px;
+        height: auto;
+        min-height: 80vh;
+        margin-bottom: 20px;
+        border: none;
+        box-shadow: none;
+    }
+
+    .fc .fc-toolbar {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        align-items: center;
+    }
+
+    .fc .fc-toolbar-title {
+        font-size: 1.25rem !important;
+        text-align: center;
+    }
+
+    .fc .fc-button-group {
+        display: flex;
+        width: 100%;
+        justify-content: center;
+    }
+
+    .fc .fc-button {
+        padding: 6px 10px !important;
+        font-size: 0.85rem !important;
+    }
+
+
+    .fc .fc-scroller {
+        overflow-y: auto !important;
+    }
+
+    .fc-event {
+        font-size: 0.75rem;
+    }
+}
+
+     @media (max-width: 480px) {
+        #calendar {
+            padding: 5px;
+            min-height: 90vh;
+        }
+
+        .fc .fc-toolbar-title {
+            font-size: 1.1rem !important;
+        }
+    }

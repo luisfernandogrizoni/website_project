@@ -1,0 +1,34 @@
+
+.is-invalid {
+    border-color: #dc3545 !important;
+}
+
+.input-error {
+    border-color: var(--c-action) !important;
+    background-color: #FFF5F5 !important;
+    animation: shake 0.3s ease-in-out;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+.technical-details {
+    background-color: #F8F9FA;
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius-md);
+    padding: 15px;
+    margin-bottom: 30px;
+    text-align: left;
+    font-family: monospace;
+    font-size: 0.85rem;
+    color: var(--c-action);
+    overflow-x: auto;
+    display: none;
+}
+
+.technical-details.visible {
+    display: block;
+}

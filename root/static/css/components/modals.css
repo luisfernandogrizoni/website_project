@@ -1,0 +1,111 @@
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(33, 37, 41, 0.6);
+    backdrop-filter: blur(4px);
+    z-index: 3000;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.modal-overlay.show { opacity: 1; }
+
+.modal-content {
+    background: white;
+    width: 100%;
+    max-width: 420px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    padding: 3.2rem;
+    overflow: hidden;
+    transform: translateY(20px);
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.modal-content.show { transform: translateY(0); }
+
+.modal-header {
+    padding: 20px 24px;
+    background: #F8F9FA;
+    border-bottom: 1px solid var(--c-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header h3 { margin: 0; font-size: 1.1rem; color: var(--c-slate); }
+.close-modal { background: none; border: none; font-size: 1.5rem; color: #868E96; cursor: pointer; }
+.close-modal:hover { color: var(--c-action); }
+
+.modal-body {
+    padding: 24px;
+}
+
+.modal-overlay.show {
+    opacity: 1;
+}
+
+ .modal-overlay {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.modal-overlay.show {
+    opacity: 1;
+}
+
+
+.prontuario-modal {
+    background-color: var(--c-bg);
+    width: 95%;
+    max-width: 1000px;
+    max-height: 90vh;
+    border-radius: 8px;
+    padding: 0;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    overflow: hidden;
+    display: grid;
+    grid-template-rows: auto auto 1fr;
+}
+
+.area-header {
+    background: var(--c-slate);
+    color: white;
+    padding: 1.5rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.area-header h2 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.5rem;
+    color: white;
+}
+
+.close-modal:hover {
+    color: white;
+}
+
+.area-stats {
+    background: white;
+    padding: 1rem 2rem;
+    display: flex;
+    gap: 2rem;
+    border-bottom: 1px solid var(--c-border);
+    flex-wrap: wrap;
+}
+
+.area-main {
+    background: white;
+    padding: 1.5rem;
+    height: 30rem;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-subtle);
+}
+

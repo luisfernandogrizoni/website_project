@@ -1,0 +1,110 @@
+.app-layout {
+        display: grid;
+        grid-template-columns: 16rem 1fr;
+        min-height: 100vh;
+        grid-template-areas:
+            "sidebar content";
+}
+
+.content {
+    grid-area: content;
+    padding: 5rem;
+}
+
+.siedebar-hidden ~ .content,
+.app-layout:has(.sidebar-hidden) {
+    grid-template-rows: 1fr;
+}
+
+.split-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 100vh;
+    width: 100%;
+    background-color: var(--c-surface);
+}
+
+.split-container {
+    height: 100vh;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+
+.split-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 4rem;
+    overflow-y: auto;
+}
+
+.split-image {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: relative;
+    background-color: crimson;
+}
+
+
+.split-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: top right;
+    display: block;
+}
+
+ @media (max-width: 900px) {
+    .split-container {
+
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr;
+    }
+
+    .split-image {
+        height: 200px;
+        order: -1;
+    }
+
+    .split-content {
+        padding: 2rem;
+    }
+
+    .image-overlay { display: none; }
+}
+
+.content-full {
+    padding: 0 !important;
+    max-width: 100% !important;
+}
+
+.image-overlay {
+    position: absolute;
+    bottom: 0; left: 0; width: 100%;
+    padding: 3rem;
+    background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+    color: white;
+}
+
+.form-container, .table-container {
+    background: var(--c-surface);
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-subtle);
+    padding: 30px;
+    max-width: 1100px;
+    margin: 0 auto 40px auto;
+}
+
+.error-page-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 60vh;
+}

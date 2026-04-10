@@ -1,0 +1,45 @@
+.error-code {
+    font-size: 6rem;
+    font-weight: 700;
+    color: var(--c-action);
+    line-height: 1;
+    margin-bottom: 10px;
+}
+
+.error-title {
+    font-size: 1.5rem;
+    color: var(--c-slate);
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.error-message {
+    color: #868E96;
+    margin-bottom: 30px;
+    line-height: 1.6;
+}
+
+.section-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #868E96;
+    font-weight: 700;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.stat-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: #868e96;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.subtitle {
+    color: #868E96;
+    margin-bottom: 2rem;
+}
+
+

@@ -1,0 +1,33 @@
+.flex-end {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.container-xl {
+    max-width: 1100px;
+    margin: 0 auto 20px auto;
+    width: 100%;
+}
+
+.spacer-md {
+    height: 2rem;
+}
+
+.btn-align {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.side-image {
+    display: none;
+}
+
+.login-logo {
+    max-width: 4.5rem;
+    height: auto;
+    margin-bottom: 1.5rem;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
