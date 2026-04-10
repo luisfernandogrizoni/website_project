@@ -19,7 +19,7 @@ export class FormUIController {
     }
 
     /**
-     * O Maestro: Registra os evnt listeners) no DOM e garante
+     * O Maestro: Registra os event listeners) no DOM e garante
      * que o estado inicial da tela esteja correto ao carregar a página.
      */
     inicializador() {

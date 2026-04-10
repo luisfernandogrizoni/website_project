@@ -3,7 +3,7 @@
 import { ApiService } from '../core/api.js';
 import { NotificationService } from '../core/notification.js';
 import { MaskController } from '../utils/masks.js';
-import { FormUIController } from '../utils/form-controller.js';
+import { FormUIController } from '../core/form-controller.js';
 
 const notificacao = new NotificationService();
 const api = new ApiService();

@@ -34,7 +34,7 @@ def prontuario():
     elif request.method == 'POST':
         flash('Houve um erro no formulário. Verifique os campos em vermelho.', 'danger')
 
-    return render_template("prontuario.html", form=form)
+    return render_template("social/prontuario.html", form=form)
 
 @social_bp.route("/dados", methods=["GET", "POST"])
 @login_required
@@ -45,7 +45,7 @@ def dados():
     """
     ativos = Prontuario.query.filter_by(ativo=True).all()
     inativos = Prontuario.query.filter_by(ativo=False).order_by(Prontuario.data_saida.desc()).all()
-    return render_template("dados.html", lista_ativos=ativos, lista_inativos=inativos)
+    return render_template("social/dados.html", lista_ativos=ativos, lista_inativos=inativos)
 
 @social_bp.route("/agenda")
 @login_required
@@ -55,6 +55,6 @@ def agenda():
     Funcionario.query.filter_by(ativo=True).order_by(Funcionario.nome).all()]
     form.categoria.choices = [(c.id, c.tipo) for c in Categoria.query.order_by(Categoria.tipo).all()]
 
-    return render_template('agenda.html', form=form)
+    return render_template('social/agenda.html', form=form)
 
 
