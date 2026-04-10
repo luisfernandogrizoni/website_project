@@ -1,3 +1,27 @@
+.l-container--centered {
+    width: 100%;
+    max-width: 450px;
+    text-align: center;
+}
+
+/**
+ * BLOCO: Row
+ * Utilizado para criar layouts horizontais flexíveis.
+ * todo: Substitui o antigo .form-row.
+ */
+.row {
+    display: flex;
+    gap: 20px;
+}
+
+/**
+ * ELEMENTO: Define que o item deve ocupar o espaço disponível igualmente.
+ */
+.row__item{
+    flex: 1;
+}
+
+
 .app-layout {
         display: grid;
         grid-template-columns: 16rem 1fr;

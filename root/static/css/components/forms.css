@@ -1,10 +1,40 @@
-.form-group { margin-bottom: 20px; position: relative; }
-.form-group label {
-    display: block; font-size: 0.85rem; font-weight: 600;
-    color: var(--c-slate); margin-bottom: 6px;
+/**
+ * BLOCO: Form Field
+ * Container principal para cada entrada de dado do formulário.
+ * Agrupa label e input mantendo o espaçamento padrão.
+ * todo: substitui o antigo .form-group.
+ */
+.form-field {
+    margin-bottom: 20px;
+    position: relative;
 }
 
- .form-group input, .form-group select, .form-group textarea {
+/**
+ * MODIFICADOR: Altera o alinhamento do texto para a esquerda e ajusta margem.
+ */
+.form-field--left {
+    text-align: left;
+    margin-bottom: 1rem;
+}
+
+/**
+ * ELEMENTO: Label
+ * Estilização técnica para rótulos, usando variáveis para consistência de cor.
+ */
+.form-field__label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--c-slate);
+    margin-bottom: 6px;
+}
+
+/**
+ * ELEMENTO: Input
+ * Base para todos os campos de texto, select e textarea.
+ * Implementa box-sizing para evitar que o padding quebre a largura de 100%.
+ */
+.form-field__input {
     width: 100%;
     padding: 10px 12px;
     border: 1px solid var(--c-border);
@@ -17,38 +47,59 @@
     transition: border-color 0.2s;
 }
 
-.form-group input:focus, .form-group select:focus {
-    outline: none; border-color: var(--c-action);
+/**
+ * ESTADO: Focus
+ * Melhora a acessibilidade e o feedback visual durante a digitação.
+ */
+.form-field__input:focus {
+    outline: none;
+    border-color: var(--c-action);
     box-shadow: 0 0 0 3px rgba(201, 42, 42, 0.1);
 }
-.form-row {
-    display: flex;
-    gap: 20px;
+
+/**
+ * MODIFICADOR: Aplica uma variação estética de fundo sutil.
+ */
+.form-field__input--modern {
+    background: var(--c-bg);
 }
 
-.form-row > div { flex: 1; }
-
-.form-group-left {
-    text-align: left;
-    margin-bottom: 1rem;
+.form-field__input--modern:focus {
+    background: white;
 }
 
-.stepper-wrapper {
+/* =========== Stepper =========== */
+
+/**
+ * BLOCO: Stepper (c-stepper)
+ * Container principal para navegação por etapas.
+ * Controla o fluxo visual do prontuário da Associação.
+ */
+.c-stepper {
     display: flex;
     justify-content: space-between;
     width: 90%;
     margin: 0 auto 40px;
 }
 
-.stepper-item {
+/**
+ * ELEMENTO: Stepper Item
+ * Representa uma etapa individual. É o "detentor do estado" (active/completed).
+ */
+.c-stepper__item {
     position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     flex: 1;
+    cursor: pointer;
 }
 
-.stepper-item::before {
+/**
+ * Lógica de Posicionamento:
+ * Remove a linha conetora do primeiro item, pois não há passo anterior.
+ */
+.c-stepper__item::before {
     position: absolute;
     content: "";
     border-bottom: 2px solid var(--c-border);
@@ -58,7 +109,11 @@
     z-index: 2;
 }
 
-.stepper-item .step-counter {
+/**
+ * ELEMENTO: Counter
+ * O círculo numérico. Design independente que reage ao estado do pai.
+ */
+.c-stepper__counter {
     position: relative;
     z-index: 5;
     display: flex;
@@ -72,58 +127,18 @@
     font-weight: 600;
     border: 2px solid var(--c-border);
 }
-.stepper-item.active .step-counter {
+
+/**
+ * ESTADO: Ativo
+ * Quando o ITEM pai está ativo, o COUNTER filho muda de cor.
+ * Isso mantém o encapsulamento e facilita expansões futuras.
+ */
+.c-stepper__item--active .c-stepper__counter {
     background: var(--c-action);
     border-color: var(--c-action);
     color: white;
 }
 
-.stepper-item:first-child::before {
+.c-stepper__item:first-child::before {
     content: none;
-}
-
-.input-modern {
-    width: 100%;
-    padding: 12px 16px;
-    border: 1px solid var(--c-border);
-    border-radius: var(--radius-md);
-    background: var(--c-bg);
-    transition: all 0.2s;
-}
-.input-modern:focus {
-    background: white;
-    border-color: var(--c-action);
-    box-shadow: 0 0 0 3px rgba(201, 42, 42, 0.1);
-    outline: none;
-}
-
-.form-wrapper-centered {
-    width: 100%;
-    max-width: 450px;
-    text-align: center;
-}
-
- .info-group {
-    margin-bottom: 0.8rem;
-}
-
-.info-group label {
-    display: block;
-    font-size: 0.8rem;
-    color: #868e96;
-    margin-bottom: 2px;
-}
-
-.info-group span {
-    font-weight: 500;
-    color: var(--c-slate);
-}
-
-.form-step {
-    animation: fadeIn 0.5s ease-in-out;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
 }

@@ -109,3 +109,19 @@
     box-shadow: var(--shadow-subtle);
 }
 
+ .info-group {
+    margin-bottom: 0.8rem;
+}
+
+.info-group label {
+    display: block;
+    font-size: 0.8rem;
+    color: #868e96;
+    margin-bottom: 2px;
+}
+
+.info-group span {
+    font-weight: 500;
+    color: var(--c-slate);
+}
+

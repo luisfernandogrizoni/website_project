@@ -64,12 +64,12 @@ def create_app():
 def register_error_handlers(app):
     @app.errorhandler(404)
     def page_not_found(e):
-        return render_template('404.html'), 404
+        return render_template('components/404.html'), 404
 
     @app.errorhandler(500)
     def internal_server_error(e):
         database.session.rollback()
-        return render_template('500.html', error=e), 500
+        return render_template('components/500.html', error=e), 500
 
     @app.errorhandler(403)
     def access_denied(e):
