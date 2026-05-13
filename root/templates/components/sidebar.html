@@ -1,14 +1,14 @@
-<nav class="sidebar-wrapper">
-    <div class="sidebar-brand">
-        <a href="{{ url_for('main.inicio') }}" class="sidebar-logo-link">
+<nav class="c-sidebar">
+    <div class="c-sidebar__logo">
+        <a href="{{ url_for('main.inicio') }}">
             <img src="{{ url_for('static', filename='images/logo.png') }}"
                  alt="Logo Associação Restauração"
-                 class="sidebar-logo-img">
+                 class="c-sidebar__image">
         </a>
             <span class="sidebar-text">Associação Restauração</span>
     </div>
 
-    <div class="sidebar-tabs-container">
+    <div>
         <a href="{{ url_for('social.prontuario') }}" class="tab-item">Nova Admissão</a>
         <a href="{{ url_for('social.dados') }}" class="tab-item">Lista de Internos</a>
         <a href="{{ url_for('social.agenda') }}" class="tab-item">Agenda</a>
