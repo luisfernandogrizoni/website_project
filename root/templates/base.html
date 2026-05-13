@@ -12,8 +12,8 @@
 </head>
 <body>
     <div class="app-layout">
-        <aside class="sidebar-area {% block sidebar_class %}{% endblock %}">
-            {% include 'components/navbar.html' %}
+        <aside class="c-sidebar {% block sidebar_class %}{% endblock %}">
+            {% include 'components/sidebar.html' %}
         </aside>
 
         <main class="content {% block main_class %}{% endblock %}">
@@ -41,7 +41,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://unpkg.com/imask"></script>
-    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
     
     {% block scripts %}{% endblock %}
 </body>
