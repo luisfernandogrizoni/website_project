@@ -1,6 +1,6 @@
 :root {
-        --c-action:   #C92A2A;
-        --c-action-hover: #A61E1E;
+        --c-action: #A61E1E;
+        --c-action-hover: #d82f2f;
         --c-highlight: #F59F00;
         --c-highlight-hover: #ffdb98;
         --c-slate:    #212529;
@@ -11,6 +11,4 @@
         --radius-md: 6px;
         --radius-lg: 8px;
         --shadow-subtle: 0 1px 3px rgba(0,0,0,0.05);
-        --header-logo-height: 40px;
-        --header-logo-gap: 1rem;
 }

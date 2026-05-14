@@ -57,17 +57,6 @@
     box-shadow: 0 0 0 3px rgba(201, 42, 42, 0.1);
 }
 
-/**
- * MODIFICADOR: Aplica uma variação estética de fundo sutil.
- */
-.form-field__input--modern {
-    background: var(--c-bg);
-}
-
-.form-field__input--modern:focus {
-    background: white;
-}
-
 /* =========== Stepper =========== */
 
 /**
@@ -133,7 +122,8 @@
  * Quando o ITEM pai está ativo, o COUNTER filho muda de cor.
  * Isso mantém o encapsulamento e facilita expansões futuras.
  */
-.c-stepper__item--active .c-stepper__counter {
+
+.c-stepper__counter--active {
     background: var(--c-action);
     border-color: var(--c-action);
     color: white;

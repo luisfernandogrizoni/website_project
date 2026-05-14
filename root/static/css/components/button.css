@@ -1,66 +1,86 @@
-.btn {
-    border-radius: var(--radius-md) !important;
-    padding: 10px 24px;
+/**
+ * BLOCO: Botão (c-btn)
+ * Componente base para todas as ações clicáveis do sistema.
+ */
+.c-btn {
+    border-radius: var(--radius-md);
+    height: 2.5rem;
+    width: 6.5rem;
+    padding: 10px 14px;
     font-weight: 600;
     font-size: 0.9rem;
     cursor: pointer;
     display: inline-block;
-    transition: background 0.2s, transform 0.1s, border-color 0.2s;
+    transition: background 0.3s, transform 0.3s, border-color 0.5s;
     text-decoration: none;
-    border: 1px solid transparent;
+    border-color: transparent;
 }
 
-.btn:hover {
-    transform: scale(1.05);
+.c-btn:hover {
+    transform: scale(1.02);
 }
 
-.btn-primary, input[type="submit"] {
-    background-color: var(--c-action) !important;
-    color: white !important;
+/**
+ * MODIFICADOR: Primário
+ * Ação principal da tela (ex: Salvar, Confirmar).
+ */
+.c-btn--primary {
+    background-color: var(--c-action);
+    color: var(--c-surface);
 }
 
-.btn-primary:hover, input[type="submit"]:hover {
-    background-color: var(--c-action-hover) !important;
+.c-btn--primary:hover {
+    background-color: var(--c-action-hover);
 }
 
-.btn-secondary, .button-link {
-    background-color: var(--c-surface) !important;
-    border-color: var(--c-border) !important;
-    color: var(--c-slate) !important;
+/**
+ * MODIFICADOR: Secundário
+ * Ação de suporte (ex: Voltar, Cancelar).
+ */
+.c-btn--secondary {
+    background-color: var(--c-border);
+    color: var(--c-slate);
+    border-color: transparent;
 }
 
-.btn-secondary:hover {
-    background-color: #F8F9FA !important;
-    border-color: #ADB5BD !important;
+.c-btn--secondary:hover {
+    background-color: whitesmoke;
 }
 
-.btn-action {
-    padding: 10px 10px;
-    font-weight: 600;
-    font-size: 0.75rem;
-    border-radius: var(--radius-lg) !important;
+/**
+ * MODIFICADOR: Ação (Pequeno/Destaque)
+ * Usado em tabelas e modais.
+ */
+.c-btn--action {
+    height: 0.5rem;
+    width: 1rem;
     background-color: var(--c-highlight);
-    color: white;
-    display: flex;
+    color: var(--c-surface);
     align-items: center;
 }
 
-.btn-action:hover {
+.c-btn--action:hover {
     background-color: var(--c-highlight-hover);
     color: var(--c-slate);
 }
 
-.btn-action.is-loading {
-    background-color: #e2e8f0;
-    color: #64748b;
+/**
+ * MODIFICADOR DE ESTADO: Loading
+ * Desabilita interações enquanto aguarda o servidor.
+ */
+.c-btn--is-loading {
     cursor: not-allowed;
     pointer-events: none;
 }
 
-@keyframes spin {
+/**
+ * ELEMENTO: Spinner
+ * Ícone de carregamento interno do botão.
+ */
+@keyframes c-btn--is-loading__spin {
     to { transform: rotate(360deg); }
-}
+    }
 
-.spin-icon {
-    animation: spin 1s linear infinite;
-}
+    .c-btn__spinner {
+        animation: c-btn--is-loading__spin 1s linear infinite;
+    }

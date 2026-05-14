@@ -19,7 +19,6 @@ export class DashboardController {
      * @param {string} configIds.btnInactivateId - ID do botão de redirecionamento para baixa.
      */
 
-    // todo: criar configIDs
     constructor(apiService, notificationService, configIds) {
             this.api = apiService;
             this.notificacao = notificationService;

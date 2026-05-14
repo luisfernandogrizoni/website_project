@@ -3,42 +3,42 @@
 {% block titulo %}Internação{% endblock %}
 
 {% block body %}
-<div class="form-container">
-    <div class="stepper-wrapper">
-        <div class="stepper-item stepper-link active" id="step-indicator-1" data-target="1" style="cursor: pointer"><div class="step-counter">1</div><div>Pessoal</div></div>
-        <div class="stepper-item stepper-link" id="step-indicator-2" data-target="2" style="cursor: pointer"><div class="step-counter">2</div><div>Endereço</div></div>
-        <div class="stepper-item stepper-link" id="step-indicator-3" data-target="3" style="cursor: pointer"><div class="step-counter">3</div><div>Social</div></div>
-        <div class="stepper-item stepper-link" id="step-indicator-4" data-target="4" style="cursor: pointer"><div class="step-counter">4</div><div>Responsável</div></div>
+<div class="c-stepper">
+    <div class="c-stepper__item">
+        <div class="c-stepper__counter c-stepper__counter--active" id="step-indicator-1" data-target="1" style="cursor: pointer"><div class="step-counter">1</div><div>Pessoal</div></div>
+        <div class="c-stepper__counter" id="step-indicator-2" data-target="2" style="cursor: pointer"><div class="step-counter">2</div><div>Endereço</div></div>
+        <div class="c-stepper__counter" id="step-indicator-3" data-target="3" style="cursor: pointer"><div class="step-counter">3</div><div>Social</div></div>
+        <div class="c-stepper__counter" id="step-indicator-4" data-target="4" style="cursor: pointer"><div class="step-counter">4</div><div>Responsável</div></div>
     </div>
 
     <form method="POST" action="" id="prontuarioForm">
         {{ form.csrf_token }}
 
         {% if current_user.cargo_obj.nome in ['Admin'] %}
-            <button type="button" id="btnAutoPreencher" class="btn btn-primary">Preencher</button>
+            <button type="button" id="btnAutoPreencher" class="c-btn c-btn--secondary">Preencher</button>
         {% endif %}
 
-        <div class="form-step" id="step-1">
+        <div class="form-field" id="step-1">
             <h2>Dados Pessoais</h2>
 
             {{ render_field(form.nome, placeholder="Ex: João da Silva", data_bind="nome") }}
 
-            <div class="row">
+            <div class="row form-field__input">
                 {{ render_field(form.data_nascimento, class_="mask-date", data_bind="data_nascimento") }}
                 {{ render_field(form.data_internacao, class_="mask-date", data_bind="data_internacao") }}
             </div>
 
-            <div class="row">
+            <div class="row form-field__input">
                 {{ render_field(form.cpf, class_="mask-cpf validate-cpf", placeholder="000.000.000-00", data_bind="cpf") }}
                 {{ render_field(form.rg, class_="mask-rg", placeholder="00.000.000-0", data_bind="rg") }}
             </div>
 
-            <div class="row">
+            <div class="row form-field__input">
                 {{ render_field(form.cartao_sus, class_="mask-sus", placeholder="000.0000.0000.0000", data_bind="cartao_sus") }}
                 {{ render_field(form.convenio, data_bind="convenio") }}
             </div>
 
-            <button type="button" class="btn btn-primary" data-stepper-action="next" data-target="2">Próximo</button>
+            <button type="button" class="c-btn c-btn--primary" data-stepper-action="next" data-target="2">Próximo</button>
         </div>
 
         <div class="form-step" id="step-2" style="display: none;">
@@ -65,7 +65,7 @@
 
             <div class="btn-align">
                 <button type="button" class="btn btn-primary" data-stepper-action="next" data-target="3">Próximo</button>
-                <button type="button" class="btn btn-secondary" data-stepper-action="prev" data-target="1">Voltar</button>
+                <button type="button" class="c-btn c-btn--secondary" data-stepper-action="prev" data-target="1">Voltar</button>
             </div>
         </div>
 
@@ -90,7 +90,7 @@
 
               <div class="btn-align">
                  <button type="button" class="btn btn-primary" data-stepper-action="next" data-target="4">Próximo</button>
-                 <button type="button" class="btn btn-secondary" data-stepper-action="prev" data-target="2">Voltar</button>
+                 <button type="button" class="c-btn c-btn--secondary" data-stepper-action="prev" data-target="2">Voltar</button>
             </div>
         </div>
 
@@ -117,7 +117,7 @@
             </div>
 
             <div class="btn-align">
-                <button type="button" class="btn btn-secondary" data-stepper-action="prev" data-target="3">Voltar</button>
+                <button type="button" class="c-btn c-btn--secondary" data-stepper-action="prev" data-target="3">Voltar</button>
                 {{ form.botao_confirmacao(class_="btn btn-primary") }}
             </div>
         </div>
