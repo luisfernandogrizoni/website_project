@@ -1,8 +1,24 @@
-{% macro render_field(field) %}
-    <div class="form-field">
-        {{ field.label }}
-        {{ field(**kwargs) }}
+{# =====================================================================
+   MACRO: render_field
+   Objetivo: Padronizar a renderização de todos os inputs do sistema,
+   injetando automaticamente as classes BEM e lidando com erros de validação.
+   ===================================================================== #}
+{% macro render_field(field, wrapper_class='') %}
+    {# Container principal do campo aplicando o padrão BEM (Bloco) #}
+    <div class="l-row {{ wrapper_class }}" id="{{ field.name }}">
 
+        {{ field.label(class_="c-form-field__label") }}
+
+        {# 1. EXTRAÇÃO: Abre (kwargs) e retira qualquer classe extra que a tela tenha enviado (ex: mask-cpf). Se não houver, retorna vazio ''. #}
+        {% set classes_extras = kwargs.pop('class_', '') %}
+
+        {# 2. CONCATENAÇÃO: Junta a classe estrutural obrigatória (c-form-field__input) com as classes extras usando o operador til (~) #}
+        {% set classes_finais = 'c-form-field__input l-form-grid__content' ~ classes_extras %}
+
+        {# 3. INJEÇÃO: Renderiza o input HTML final passando a classe unificada (limpa de espaços extras via strip()) e o resto dos parâmetros da mochila (**kwargs) #}
+        {{ field(class_=classes_finais.strip(), **kwargs) }}
+
+        {# Bloco de validação: Se o backend WTForms recusar o dado, itera sobre os erros e exibe as mensagens abaixo do campo #}
         {% if field.errors %}
             {% for error in field.errors %}
                 <span class="error-message">{{ error }}</span>
@@ -11,21 +27,41 @@
     </div>
 {% endmacro %}
 
+
+{# =====================================================================
+   MACRO: render_badge_convenio
+   Objetivo: Receber uma string de convênio e renderizar a pílula (badge)
+   com a cor correta baseada nas regras de negócio.
+   ===================================================================== #}
+
 {% macro render_badge_convenio(convenio) %}
+    {# Define uma classe base/padrão como fallback de segurança #}
     {% set classe = 'badge-padrao' %}
+
+    {# Normaliza o texto recebido para letras minúsculas. Isso evita bugs de digitação (ex: "Social", "SOCIAL" e "social" serão lidos da mesma forma) #}
     {% set conv_lower = convenio | lower %}
 
-        {% if 'social' in conv_lower %}{% set classe = 'badge-social' %}
+        {# Árvore de Decisão: Mapeia palavras-chave para suas respectivas classes visuais #}
+        {% if 'social' in conv_lower %}
+            {% set classe = 'badge-social' %}
             <span class="badge {{ classe }}">Social</span>
-        {% elif 'particular' in conv_lower %}{% set classe = 'badge-particular' %}
+
+        {% elif 'particular' in conv_lower %}
+            {% set classe = 'badge-particular' %}
             <span class="badge {{ classe }}">Particular</span>
-        {% elif 'capsAD' in conv_lower %}{% set classe = 'badge-caps' %}
+
+        {% elif 'capsAD' in conv_lower %}
+            {% set classe = 'badge-caps' %}
             <span class="badge {{ classe }}">Caps AD</span>
-        {% elif 'taruma' in conv_lower %}{% set classe = 'badge-taruma' %}
+
+        {% elif 'taruma' in conv_lower %}
+            {% set classe = 'badge-taruma' %}
             <span class="badge {{ classe }}">Convênio Tarumã</span>
+
         {% else %}
-        <span class="badge {{ classe }}">{{ p.convenio }}</span>
+            {# Se for um convênio desconhecido, usa a classe padrão e exibe a string original que veio do banco #}
+            <span class="badge {{ classe }}">{{ convenio }}</span>
         {% endif %}
 
-    <span class="badge {{ classe }}">{{ convenio | title }}</span>
+ {# <span class="badge {{ classe }}">{{ convenio | title }}</span> #}
 {% endmacro %}

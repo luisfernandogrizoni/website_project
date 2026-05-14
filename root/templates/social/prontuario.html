@@ -3,95 +3,67 @@
 {% block titulo %}Internação{% endblock %}
 
 {% block body %}
-<div class="form-container">
-    <div class="stepper-wrapper">
-        <div class="stepper-item stepper-link active" id="step-indicator-1" data-target="1" style="cursor: pointer"><div class="step-counter">1</div><div>Pessoal</div></div>
-        <div class="stepper-item stepper-link" id="step-indicator-2" data-target="2" style="cursor: pointer"><div class="step-counter">2</div><div>Endereço</div></div>
-        <div class="stepper-item stepper-link" id="step-indicator-3" data-target="3" style="cursor: pointer"><div class="step-counter">3</div><div>Social</div></div>
-        <div class="stepper-item stepper-link" id="step-indicator-4" data-target="4" style="cursor: pointer"><div class="step-counter">4</div><div>Responsável</div></div>
+<form method="POST" action="" id="prontuarioForm" class="c-stepper l-container l-form-layout">
+    <div class="l-form-layout__header">
+        <div class="c-stepper__counter c-stepper__counter--active" id="step-indicator-1" data-target="1"><div class="step-counter">1</div></div>
+        <div class="c-stepper__counter" id="step-indicator-2" data-target="2"><div class="step-counter">2</div></div>
     </div>
+    <div class="l-form-layout__content">
+        <div class="l-grid--2-cols">
+            {{ form.csrf_token }}
 
-    <form method="POST" action="" id="prontuarioForm">
-        {{ form.csrf_token }}
+            <div class="l-grid-12">
+                {{ render_field(form.nome, wrapper_class="c-form-field--span-12", placeholder="Ex: João da Silva", data_bind="nome") }}
 
-        {% if current_user.cargo_obj.nome in ['Admin'] %}
-            <button type="button" id="btnAutoPreencher" class="btn btn-primary">Preencher</button>
-        {% endif %}
+                {{ render_field(form.data_nascimento, class_="mask-date", wrapper_class="c-form-field--span-6", data_bind="data_nascimento") }}
+                {{ render_field(form.data_internacao, class_="mask-date", wrapper_class="c-form-field--span-6", data_bind="data_internacao") }}
 
-        <div class="form-step" id="step-1">
-            <h2>Dados Pessoais</h2>
+                {{ render_field(form.cpf, class_="mask-cpf validate-cpf", wrapper_class="c-form-field--span-6", placeholder="000.000.000-00", data_bind="cpf") }}
+                {{ render_field(form.rg, class_="mask-rg", wrapper_class="c-form-field--span-6", placeholder="00.000.000-0", data_bind="rg") }}
 
-            {{ render_field(form.nome, placeholder="Ex: João da Silva", data_bind="nome") }}
-
-            <div class="row">
-                {{ render_field(form.data_nascimento, class_="mask-date", data_bind="data_nascimento") }}
-                {{ render_field(form.data_internacao, class_="mask-date", data_bind="data_internacao") }}
+                {{ render_field(form.cartao_sus, class_="mask-sus", wrapper_class="c-form-field--span-6", placeholder="000.0000.0000.0000", data_bind="cartao_sus") }}
+                {{ render_field(form.convenio, wrapper_class="c-form-field--span-6", data_bind="convenio") }}
             </div>
+            <div class="l-grid-12">
+                {{ render_field(form.cep, id="cep", class_="mask-cep action-busca-cep", placeholder="00000-000", wrapper_class="c-form-field--span-12") }}
+                {{ render_field(form.rua, id="rua", data_bind="rua", wrapper_class="c-form-field--span-10") }}
+                {{ render_field(form.num, id="num", data_bind="num", wrapper_class="c-form-field--span-2") }}
 
-            <div class="row">
-                {{ render_field(form.cpf, class_="mask-cpf validate-cpf", placeholder="000.000.000-00", data_bind="cpf") }}
-                {{ render_field(form.rg, class_="mask-rg", placeholder="00.000.000-0", data_bind="rg") }}
-            </div>
-
-            <div class="row">
-                {{ render_field(form.cartao_sus, class_="mask-sus", placeholder="000.0000.0000.0000", data_bind="cartao_sus") }}
-                {{ render_field(form.convenio, data_bind="convenio") }}
-            </div>
-
-            <button type="button" class="btn btn-primary" data-stepper-action="next" data-target="2">Próximo</button>
-        </div>
-
-        <div class="form-step" id="step-2" style="display: none;">
-            <h2>Endereço</h2>
-
-            <div class="row">
-                {{ render_field(form.cep, id="cep", class_="mask-cep action-busca-cep", placeholder="00000-000") }}
-                <div style="flex: 2;">
-                    {{ render_field(form.rua, id="rua", data_bind="rua") }}
-                </div>
-            </div>
-
-            <div class="row">
-                {{ render_field(form.num, id="num", data_bind="num") }}
-                <div style="flex: 2;">
-                    {{ render_field(form.bairro, id="bairro", data_bind="bairro") }}
-                </div>
-            </div>
-
-            <div class="row">
-                {{ render_field(form.cidade, id="cidade", data_bind="cidade") }}
-                {{ render_field(form.estado, id="estado", data_bind="estado") }}
-            </div>
-
-            <div class="btn-align">
-                <button type="button" class="btn btn-primary" data-stepper-action="next" data-target="3">Próximo</button>
-                <button type="button" class="btn btn-secondary" data-stepper-action="prev" data-target="1">Voltar</button>
+                {{ render_field(form.cidade, id="cidade", data_bind="cidade", wrapper_class="c-form-field--span-4") }}
+                {{ render_field(form.estado, id="estado", data_bind="estado", wrapper_class="c-form-field--span-4") }}
+                {{ render_field(form.bairro, id="bairro", data_bind="bairro", wrapper_class="c-form-field--span-4") }}
             </div>
         </div>
-
+    </div>
+        <div class="l-form-layout__footer">
+            <button type="button" class="c-btn c-btn--primary" data-stepper-action="next" data-target="2">Próximo</button>
+        </div>
+</form>
         <div class="form-step" id="step-3" style="display: none;">
              <h2>Dados Sociais</h2>
 
              {{ render_field(form.mae, data_bind="mae") }}
 
-             <div class="row">
+             <div class="">
                  {{ render_field(form.escolaridade, data_bind="escolaridade") }}
                  {{ render_field(form.profissao, data_bind="profissao") }}
              </div>
 
-             <div class="row">
+             <div class="__item">
                  {{ render_field(form.religiao, data_bind="religiao") }}
                  {{ render_field(form.estado_civil, id="estado_civil", data_bind="estado_civil") }}
              </div>
 
-             <div class="row row__item" id="conjuge_container" style="display: none;">
+             <div class="c- c-__input" id="conjuge_container" style="display: none;">
                  {{ render_field(form.conjuge, data_bind="conjuge") }}
              </div>
 
-              <div class="btn-align">
-                 <button type="button" class="btn btn-primary" data-stepper-action="next" data-target="4">Próximo</button>
-                 <button type="button" class="btn btn-secondary" data-stepper-action="prev" data-target="2">Voltar</button>
-            </div>
+             <div class="l-row l-btn__center">
+                {% if current_user.cargo_obj.nome in ['Admin'] %}
+                    <button type="button" id="btnAutoPreencher" class="c-btn c-btn--secondary">Preencher</button>
+                {% endif %}
+                    <button type="button" class="c-btn c-btn--primary" data-stepper-action="next" data-target="2">Próximo</button>
+             </div>
         </div>
 
         <div class="form-step" id="step-4" style="display: none;">
@@ -99,29 +71,29 @@
 
             {{ render_field(form.responsavel, data_bind="responsavel") }}
 
-            <div class="row">
+            <div class="">
                 {{ render_field(form.relacao, data_bind="relacao") }}
                 {{ render_field(form.contrib, data_bind="contrib") }}
             </div>
 
             <h3>Contato</h3>
-            <div class="row">
+            <div class="">
                 {{ render_field(form.contato, class_="mask-phone", id="contato", data_bind="contato") }}
                 {{ render_field(form.contato_dois, class_="mask-phone", id="contato_dois", data_bind="contato_dois") }}
             </div>
 
             <h3 style="font-size: 1rem; margin-top: 15px; border-bottom: 1px solid #eee;">Documentos</h3>
-            <div class="row">
+            <div class="">
                 {{ render_field(form.cpf_resp, class_="mask-cpf validate-cpf", id="cpf_resp", placeholder="000.000.000-00", data_bind="cpf_resp") }}
                 {{ render_field(form.rg_resp, class_="mask-rg", id="rg_resp", placeholder="00.000.000-0", data_bind="rg_resp") }}
             </div>
 
             <div class="btn-align">
-                <button type="button" class="btn btn-secondary" data-stepper-action="prev" data-target="3">Voltar</button>
+                <button type="button" class="c-btn c-btn--secondary" data-stepper-action="prev" data-target="3">Voltar</button>
                 {{ form.botao_confirmacao(class_="btn btn-primary") }}
             </div>
         </div>
-    </form>
+
 </div>
 {% endblock %}
 

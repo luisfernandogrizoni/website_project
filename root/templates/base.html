@@ -11,12 +11,12 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-    <div class="app-layout">
+    <div class="l-app-layout">
         <aside class="c-sidebar {% block sidebar_class %}{% endblock %}">
             {% include 'components/sidebar.html' %}
         </aside>
 
-        <main class="content {% block main_class %}{% endblock %}">
+        <main class="l-content {% block main_class %}{% endblock %}">
             <div id="global-messages" style="display: none">
                 {% with messages = get_flashed_messages(with_categories=true) %}
                     {% if messages %}

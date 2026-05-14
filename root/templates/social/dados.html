@@ -1,53 +1,5 @@
 {% extends "base.html" %}
-{% include 'components/dashboard.html' %}
 {% from "_macros.html" import render_badge_convenio %}
 {% block titulo %}Lista de Internos{% endblock %}
 
 {% block body %}
-    <div class="container">
-
-        <div class="nav-tabs">
-            <div class="nav-tab active" data-target="tab-ativos">Internos</div>
-            <div class="nav-tab" data-target="tab-inativos">Ex-Internos</div>
-        </div>
-
-        <div id="tab-ativos" class="tab-content active table-container">
-            <table id="tabelaAtivos" class="stripe hover">
-                <thead>
-                    <tr>
-                        <th>Nome</th>
-                        <th class="mobile-hide">Idade</th>
-                        <th class="mobile-hide">CPF</th>
-                        <th>Convênio</th>
-                        <th class="mobile-hide">Cidade</th>
-                        <th class="mobile-hide">Responsável</th>
-                        <th class="mobile-hide">Entrada</th>
-                    </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
-        </div>
-
-        <div id="tab-inativos" class="tab-content table-container">
-            <table id="tabelaInativos" class="stripe hover" style="width:100%">
-                <thead>
-                    <tr>
-                        <th>Nome</th>
-                        <th class="mobile-hide">Idade</th>
-                        <th class="mobile-hide">Convênio</th>
-                        <th class="mobile-hide">Saída</th>
-                        <th>Permanência</th>
-                        <th>Motivo</th>
-                    </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-{% block scripts %}
-    <script src="{{ url_for('static', filename='js/dados.js') }}"></script>
-{% endblock %}
-{% endblock %}

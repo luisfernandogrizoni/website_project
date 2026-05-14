@@ -1,27 +1,9 @@
-/**
- * BLOCO: Form Field
- * Container principal para cada entrada de dado do formulário.
- * Agrupa label e input mantendo o espaçamento padrão.
- * todo: substitui o antigo .form-group.
- */
-.form-field {
-    margin-bottom: 20px;
-    position: relative;
-}
-
-/**
- * MODIFICADOR: Altera o alinhamento do texto para a esquerda e ajusta margem.
- */
-.form-field--left {
-    text-align: left;
-    margin-bottom: 1rem;
-}
-
+/* =========== Form Field =========== */
 /**
  * ELEMENTO: Label
  * Estilização técnica para rótulos, usando variáveis para consistência de cor.
  */
-.form-field__label {
+.c-form-field__label {
     display: block;
     font-size: 0.85rem;
     font-weight: 600;
@@ -34,8 +16,9 @@
  * Base para todos os campos de texto, select e textarea.
  * Implementa box-sizing para evitar que o padding quebre a largura de 100%.
  */
-.form-field__input {
+.c-form-field__input {
     width: 100%;
+    box-sizing: border-box;
     padding: 10px 12px;
     border: 1px solid var(--c-border);
     border-radius: var(--radius-md);
@@ -43,7 +26,6 @@
     font-size: 0.95rem;
     background: var(--c-surface);
     color: var(--c-slate);
-    box-sizing: border-box;
     transition: border-color 0.2s;
 }
 
@@ -51,22 +33,18 @@
  * ESTADO: Focus
  * Melhora a acessibilidade e o feedback visual durante a digitação.
  */
-.form-field__input:focus {
+.c-form-field__input:focus {
     outline: none;
     border-color: var(--c-action);
     box-shadow: 0 0 0 3px rgba(201, 42, 42, 0.1);
 }
 
-/**
- * MODIFICADOR: Aplica uma variação estética de fundo sutil.
- */
-.form-field__input--modern {
-    background: var(--c-bg);
-}
+.c-form-field--span-12 { grid-column: span 12; }
+.c-form-field--span-10 { grid-column: span 10; }
+.c-form-field--span-6  { grid-column: span 6; }
+.c-form-field--span-4  { grid-column: span 4; }
+.c-form-field--span-2  { grid-column: span 2; }
 
-.form-field__input--modern:focus {
-    background: white;
-}
 
 /* =========== Stepper =========== */
 
@@ -77,9 +55,8 @@
  */
 .c-stepper {
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
-    width: 90%;
-    margin: 0 auto 40px;
 }
 
 /**
@@ -87,9 +64,8 @@
  * Representa uma etapa individual. É o "detentor do estado" (active/completed).
  */
 .c-stepper__item {
-    position: relative;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
     flex: 1;
     cursor: pointer;
@@ -117,6 +93,7 @@
     position: relative;
     z-index: 5;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     width: 40px;
@@ -126,6 +103,7 @@
     color: #868E96;
     font-weight: 600;
     border: 2px solid var(--c-border);
+    cursor: pointer;
 }
 
 /**
@@ -133,7 +111,8 @@
  * Quando o ITEM pai está ativo, o COUNTER filho muda de cor.
  * Isso mantém o encapsulamento e facilita expansões futuras.
  */
-.c-stepper__item--active .c-stepper__counter {
+
+.c-stepper__counter--active {
     background: var(--c-action);
     border-color: var(--c-action);
     color: white;

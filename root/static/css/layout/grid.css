@@ -1,3 +1,16 @@
+.l-grid--2-cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+.l-grid-12 {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 1.5rem 1rem;
+}
+
+
 .prontuario-dashboard-grid {
     display: grid;
     grid-template-columns: 2fr 1fr;
@@ -5,10 +18,4 @@
     padding: 2rem;
     overflow-y: auto;
     max-height: 70vh;
-}
-
-@media (max-width: 768px) {
-    .dashboard-grid {
-        grid-template-columns: 1fr;
-    }
 }

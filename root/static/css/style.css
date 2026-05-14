@@ -1,27 +1,26 @@
 /* =========================================
-   MANIFESTO CSS - ERP ASSOCIAÇÃO RESTAURAÇÃO
+       CSS - ERP ASSOCIAÇÃO RESTAURAÇÃO
    ========================================= */
 
 /* 1. Settings & Base (Fundações e Variáveis) */
-@import url("base/settings.css");
+@import url("base/variables.css");
 @import url("base/generic.css");
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css");
 
 /* 2. Layout (O esqueleto macro da página) */
 @import url("layout/app-layout.css");
 @import url("layout/grid.css");
+@import url("layout/form-layout.css");
 
 /* 3. Utilitários (Comportamentos e estados globais) */
-@import url("utilities/animations.css");
-@import url("utilities/helpers.css");
-@import url("utilities/state.css");
+@import url("utilities/r-helpers.css");
+@import url("utilities/r-state.css");
+@import url("utilities/typography.css");
 
 /* 4. Componentes (As peças modulares de interface) */
 @import url("components/button.css");
 @import url("components/forms.css");
 @import url("components/sidebar.css");
-@import url("components/calendar.css");
-@import url("components/cards.css");
-@import url("components/feedback.css");
-@import url("components/modals.css");
-@import url("components/tables.css");
-@import url("components/typography.css");
+@import url("refactor/r-cards.css");
+@import url("refactor/r-feedback.css");
+@import url("refactor/r-modals.css");
