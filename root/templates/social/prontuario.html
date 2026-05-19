@@ -22,16 +22,29 @@
                 {{ render_field(form.rg, class_="mask-rg", wrapper_class="c-form-field--span-6", placeholder="00.000.000-0", data_bind="rg") }}
 
                 {{ render_field(form.cartao_sus, class_="mask-sus", wrapper_class="c-form-field--span-6", placeholder="000.0000.0000.0000", data_bind="cartao_sus") }}
+                {{ render_field(form.religiao, data_bind="religiao", wrapper_class="c-form-field--span-6") }}
+
                 {{ render_field(form.convenio, wrapper_class="c-form-field--span-6", data_bind="convenio") }}
+                {{ render_field(form.mae, data_bind="mae", wrapper_class="c-form-field--span-6") }}
+
+
+
             </div>
             <div class="l-grid-12">
+                {{ render_field(form.escolaridade, data_bind="escolaridade",  wrapper_class="c-form-field--span-6") }}
+                {{ render_field(form.profissao, data_bind="profissao",  wrapper_class="c-form-field--span-6") }}
+
                 {{ render_field(form.cep, id="cep", class_="mask-cep action-busca-cep", placeholder="00000-000", wrapper_class="c-form-field--span-12") }}
+
                 {{ render_field(form.rua, id="rua", data_bind="rua", wrapper_class="c-form-field--span-10") }}
                 {{ render_field(form.num, id="num", data_bind="num", wrapper_class="c-form-field--span-2") }}
 
                 {{ render_field(form.cidade, id="cidade", data_bind="cidade", wrapper_class="c-form-field--span-4") }}
                 {{ render_field(form.estado, id="estado", data_bind="estado", wrapper_class="c-form-field--span-4") }}
                 {{ render_field(form.bairro, id="bairro", data_bind="bairro", wrapper_class="c-form-field--span-4") }}
+
+                {{ render_field(form.estado_civil, id="estado_civil", data_bind="estado_civil", wrapper_class="c-form-field--span-6") }}
+                {{ render_field(form.conjuge, data_bind="conjuge",  wrapper_class="c-form-field--span-6") }}
             </div>
         </div>
     </div>
@@ -39,32 +52,6 @@
             <button type="button" class="c-btn c-btn--primary" data-stepper-action="next" data-target="2">Próximo</button>
         </div>
 </form>
-        <div class="form-step" id="step-3" style="display: none;">
-             <h2>Dados Sociais</h2>
-
-             {{ render_field(form.mae, data_bind="mae") }}
-
-             <div class="">
-                 {{ render_field(form.escolaridade, data_bind="escolaridade") }}
-                 {{ render_field(form.profissao, data_bind="profissao") }}
-             </div>
-
-             <div class="__item">
-                 {{ render_field(form.religiao, data_bind="religiao") }}
-                 {{ render_field(form.estado_civil, id="estado_civil", data_bind="estado_civil") }}
-             </div>
-
-             <div class="c- c-__input" id="conjuge_container" style="display: none;">
-                 {{ render_field(form.conjuge, data_bind="conjuge") }}
-             </div>
-
-             <div class="l-row l-btn__center">
-                {% if current_user.cargo_obj.nome in ['Admin'] %}
-                    <button type="button" id="btnAutoPreencher" class="c-btn c-btn--secondary">Preencher</button>
-                {% endif %}
-                    <button type="button" class="c-btn c-btn--primary" data-stepper-action="next" data-target="2">Próximo</button>
-             </div>
-        </div>
 
         <div class="form-step" id="step-4" style="display: none;">
             <h2>Dados do Responsável</h2>

@@ -1,11 +1,11 @@
 .l-form-layout {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 1rem;
+    gap: 3rem;
     grid-template-areas:
-        "header header"
-        "content content"
-        "footer footer";
+        "header"
+        "content"
+        "footer";
 }
 
 .l-form-layout__header {
@@ -17,9 +17,8 @@
 
 .l-form-layout__content {
     grid-area: content;
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
     gap: 1.5rem 1rem;
+    width: 100%;
 }
 
 .l-form-layout__footer {

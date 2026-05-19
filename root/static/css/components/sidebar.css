@@ -1,46 +1,18 @@
 /**
- * BLOCO: Sidebar (c-sidebar)
- * Navegação lateral principal do sistema.
- * Utiliza CSS Grid (grid-area) para posicionamento no layout macro.
- */
-.c-sidebar {
-    grid-area: sidebar;
-    display: flex;
-    flex-direction: column;
-    background: var(--c-slate);
-    align-items: center;
-    height: 100%;
-    padding: 1rem 0;
-    gap: 1rem;
-    overflow: hidden;
-}
-
-/**
- * ELEMENTO: Nav
- * Container que agrupa os links de navegação.
- */
-.c-sidebar__nav {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-    margin: 1.1rem;
-}
-
-/**
  * ELEMENTO: Item
  * Link individual de navegação.
  */
 .c-sidebar__item {
-    align-items: center;
     margin: 0 1rem;
+    padding: 8px 10px;
     height: 1.5rem;
-    width: 12rem;
-    padding: 8px 12px;
-    transition: all 0.2s;
-    color: var(--c-bg);
-    font-size: 0.9rem;
     display: flex;
+    align-items: center;
     gap: 1rem;
+    transition: all 0.2s;
+    color: var(--c-slate);
+    font-weight: 600;
+    font-size: 0.9rem;
 }
 
 /**
@@ -57,8 +29,7 @@
  * Feedback visual de interação.
  */
 .c-sidebar__item:hover {
-    background-color: var(--c-slate-hover);
-    transform: translateY(-1px);
+    background-color: var(--c-bg);
     text-decoration: none;
     border-radius: var(--radius-md);
 }
@@ -68,10 +39,7 @@
  * Envolve a imagem e a marca, garantindo o alinhamento.
  */
 .c-sidebar__logo {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    height: 4rem;
+    height: 3rem;
 }
 
 /**
@@ -94,7 +62,8 @@
  * Texto descritivo ou nome da instituição abaixo da logo.
  */
 .c-sidebar__brand-text {
-    color: var(--c-surface);
+    color: var(--c-slate);
+    font-size: 0.85rem;
     font-weight: bold;
 }
 

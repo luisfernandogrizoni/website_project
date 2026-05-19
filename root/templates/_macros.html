@@ -12,8 +12,9 @@
         {# 1. EXTRAÇÃO: Abre (kwargs) e retira qualquer classe extra que a tela tenha enviado (ex: mask-cpf). Se não houver, retorna vazio ''. #}
         {% set classes_extras = kwargs.pop('class_', '') %}
 
-        {# 2. CONCATENAÇÃO: Junta a classe estrutural obrigatória (c-form-field__input) com as classes extras usando o operador til (~) #}
-        {% set classes_finais = 'c-form-field__input l-form-grid__content' ~ classes_extras %}
+        {# CONCATENAÇÃO: Apenas a classe do input e com espaço no final! #}
+        {% set classes_finais = 'c-form-field__input ' ~ classes_extras %}
+
 
         {# 3. INJEÇÃO: Renderiza o input HTML final passando a classe unificada (limpa de espaços extras via strip()) e o resto dos parâmetros da mochila (**kwargs) #}
         {{ field(class_=classes_finais.strip(), **kwargs) }}

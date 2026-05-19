@@ -12,11 +12,11 @@
 </head>
 <body>
     <div class="l-app-layout">
-        <aside class="c-sidebar {% block sidebar_class %}{% endblock %}">
+        <nav class="l-app-layout__sidebar {% block sidebar_class %}{% endblock %}">
             {% include 'components/sidebar.html' %}
-        </aside>
+        </nav>
 
-        <main class="l-content {% block main_class %}{% endblock %}">
+        <main class="l-app-layout__content {% block main_class %}{% endblock %}">
             <div id="global-messages" style="display: none">
                 {% with messages = get_flashed_messages(with_categories=true) %}
                     {% if messages %}

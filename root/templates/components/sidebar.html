@@ -1,20 +1,23 @@
-<nav class="c-sidebar">
-    <div class="c-sidebar__nav">
+<div class="l-sidebar__header">
         <a href="{{ url_for('main.inicio') }}" class="c-sidebar__logo">
             <img src="{{ url_for('static', filename='images/logo.png') }}"
                  alt="Logo Associação Restauração"
                  class="c-sidebar__image">
         </a>
             <span class="c-sidebar__brand-text">Associação Restauração</span>
-    </div>
+</div>
 
-    <div class="c-sidebar__nav">
+<div class="l-sidebar__content">
         <a href="{{ url_for('social.prontuario') }}" class="c-sidebar__item"><i class="bi bi-plus-circle"></i>Nova Admissão</a>
+        {% if current_user.is_authenticated and current_user.cargo_obj.nome in ['Admin'] %}
+            <a href="{{ url_for('admin.novo_funcionario') }}" class="c-sidebar__item"><i class="bi bi-plus-circle"></i>Novo Funcionário</a>
+        {% endif %}
         <a href="{{ url_for('social.dados') }}" class="c-sidebar__item"><i class="bi bi-book"></i>Lista de Internos</a>
         <a href="{{ url_for('social.agenda') }}" class="c-sidebar__item"><i class="bi bi-table"></i>Agenda</a>
-        {% if current_user.is_authenticated and current_user.cargo_obj.nome in ['Admin'] %}
-            <a href="{{ url_for('admin.novo_funcionario') }}" class="c-sidebar__item"><i class="bi bi-plus-circle"></i>Cadastrar Funcionário</a>
-        {% endif %}
-    </div>
+</div>
 
-</nav>
+<div class="l-sidebar__footer">
+    {% if current_user.is_authenticated %}
+        <a href="{{ url_for('main.logout') }}" class="c-sidebar__item"><i class="bi bi-door-open"></i>Sair</a>
+    {% endif %}
+</div>

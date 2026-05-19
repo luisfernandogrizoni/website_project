@@ -13,8 +13,8 @@
 @import url("layout/form-layout.css");
 
 /* 3. Utilitários (Comportamentos e estados globais) */
-@import url("utilities/r-helpers.css");
-@import url("utilities/r-state.css");
+@import url("refactor/r-helpers.css");
+@import url("refactor/r-state.css");
 @import url("utilities/typography.css");
 
 /* 4. Componentes (As peças modulares de interface) */
