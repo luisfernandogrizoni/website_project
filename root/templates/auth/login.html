@@ -2,38 +2,38 @@
 {% block titulo %}Entrar{% endblock %}
 {% from "_macros.html" import render_field %}
 
-{% block sidebar_class %}c-sidebar u-hidden{% endblock %}
-{% block main_class %}content-full{% endblock %}
+{% block sidebar_class %}.l-app-layout u-hidden{% endblock %}
+{% block main_class %}l-app-layout__content--full{% endblock %}
 
 {% block body %}
 
-<div class="content-full">
-    <div class="split-container">
-        <div class="l-container--centered">
-            <img src="{{ url_for('static', filename='images/logo.png') }}" class="login-logo">
-            <h2>Associação Restauração</h2>
-            <p class="subtitle">Bem vindo, Associado!</p>
-
-            <form method="POST" id="formLogin">
-            {{ form.csrf_token }}
-                <div class="form-field form-field--left">
-                    <div class="row row__item">
-                        {{ render_field(form.email, placeholder="seu@email.com") }}
-                    </div>
-                    <div class="row row__item">
-                        {{ render_field(form.senha, placeholder="********") }}
-                    </div>
-                </div>
-
-                <button type="submit" class="btn btn-primary">Entrar</button>
-            </form>
+<div class="l-grid--2-cols u-full-height u-full-width">
+    <form method="POST" id="formLogin" class="l-form-layout u-wrapper">
+        {{ form.csrf_token }}
+        <div class="l-form-layout__header c-login-logo u-column">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" class="c-login-logo__image">
+            <div class="u-column u-column__center">
+                <span class="c-login-logo__text">Associação Restauração</span>
+                <p class="u-subsection">Bem vindo, Associado!</p>
+            </div>
         </div>
-    </div>
 
-    <div class="split-image">
-        <img src="{{ url_for('static', filename='images/banner.png') }}"
-             alt="Banner Lateral"
-             style="width: 100%; height: 100%; object-fit: cover;">
+        <div class="l-form-layout__content u-column u-column__center">
+            <div class="l-grid-12 u-full-width">
+                {{ render_field(form.email, placeholder="seu@email.com", wrapper_class="c-form-field--span-12") }}
+                {{ render_field(form.senha, placeholder="********", wrapper_class="c-form-field--span-12") }}
+            </div>
+
+            <button type="submit" class="c-btn c-btn--primary">Entrar</button>
+        </div>
+
+        <div class="l-form-layout__footer">
+
+        </div>
+    </form>
+    <div class="c-split-image">
+        <img src="{{ url_for('static', filename='images/banner.png') }}" class="c-split-image__img">
     </div>
 </div>
 {% endblock %}
+

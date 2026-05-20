@@ -45,7 +45,7 @@ def dados():
     """
     ativos = Prontuario.query.filter_by(ativo=True).all()
     inativos = Prontuario.query.filter_by(ativo=False).order_by(Prontuario.data_saida.desc()).all()
-    return render_template("social/dados-1.2.html", lista_ativos=ativos, lista_inativos=inativos)
+    return render_template("social/dados.html", lista_ativos=ativos, lista_inativos=inativos)
 
 @social_bp.route("/agenda")
 @login_required

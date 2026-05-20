@@ -45,6 +45,46 @@
 .c-form-field--span-4  { grid-column: span 4; }
 .c-form-field--span-2  { grid-column: span 2; }
 
+.c-login-logo{
+    height: 5rem;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.c-login-logo__image {
+    height: 100%;
+    width: auto;
+    object-fit: contain;
+}
+
+.c-login-logo__text {
+    color: var(--c-slate);
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+/**
+ * CONTAINER DA IMAGEM
+ * Define a área total (100% da coluna da direita)
+ */
+.c-split-image {
+    width: 100%;
+    height: 100%;
+    overflow: hidden; /* Garante que se a imagem vazar, o excesso será escondido */
+    background-color: var(--c-slate); /* Cor de fundo provisória enquanto a foto carrega */
+}
+
+/**
+ * A IMAGEM FÍSICA
+ * O object-fit faz a tag <img> se comportar como background-size: cover
+ */
+.c-split-image__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* A mágica acontece aqui! Preenche tudo sem distorcer. */
+    object-position: right;/* Centraliza a parte mais importante da foto */
+    display: block; /* Remove um pequeno espaço fantasma que imagens criam no rodapé */
+}
 
 /* =========== Stepper =========== */
 

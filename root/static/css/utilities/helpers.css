@@ -1,0 +1,27 @@
+.u-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.u-column__center {
+    align-items: center;
+}
+
+.u-row__center {
+    justify-content: center;
+}
+
+.u-full-width {
+    width: 100%;
+}
+
+.u-full-height {
+    height: 100%;
+}
+
+.u-wrapper {
+    padding: 5rem 4rem 9rem 4rem;
+}
+
+
+

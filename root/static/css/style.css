@@ -11,11 +11,13 @@
 @import url("layout/app-layout.css");
 @import url("layout/grid.css");
 @import url("layout/form-layout.css");
+@import url("layout/sidebar-layout.css");
 
 /* 3. Utilitários (Comportamentos e estados globais) */
 @import url("refactor/r-helpers.css");
 @import url("refactor/r-state.css");
 @import url("utilities/typography.css");
+@import url("utilities/helpers.css");
 
 /* 4. Componentes (As peças modulares de interface) */
 @import url("components/button.css");
