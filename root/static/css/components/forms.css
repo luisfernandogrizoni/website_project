@@ -3,6 +3,20 @@
  * ELEMENTO: Label
  * Estilização técnica para rótulos, usando variáveis para consistência de cor.
  */
+
+.c-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    color: inherit;
+    font-size: 1.25rem;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.c-icon--sm { font-size: 1rem; }
+.c-icon--lg { font-size: 2rem; }
+
 .c-form-field__label {
     display: block;
     font-size: 0.85rem;
@@ -28,6 +42,7 @@
     color: var(--c-slate);
     transition: border-color 0.2s;
 }
+
 
 /**
  * ESTADO: Focus
@@ -136,14 +151,12 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 40px;
-    height: 40px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
     background: var(--c-bg);
-    color: #868E96;
     font-weight: 600;
-    border: 2px solid var(--c-border);
-    cursor: pointer;
+
 }
 
 /**
@@ -154,7 +167,6 @@
 
 .c-stepper__counter--active {
     background: var(--c-action);
-    border-color: var(--c-action);
     color: white;
 }
 

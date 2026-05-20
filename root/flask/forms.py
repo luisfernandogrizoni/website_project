@@ -94,8 +94,8 @@ class FormProntuario(FlaskForm):
 
     # Utilização de listas limpas vindas de constantes
     nome = StringField("Nome Completo", validators=[DataRequired()])
-    cpf = StringField("Cadastro de Pessoa Física (CPF)", validators=[DataRequired(), Unique(Prontuario, Prontuario.cpf), Length(min=9, max=20)])
-    rg = StringField("Registro Geral (RG)", validators=[DataRequired(), Unique(Prontuario, Prontuario.rg), Length(min=9, max=20)])
+    cpf = StringField("CPF", validators=[DataRequired(), Unique(Prontuario, Prontuario.cpf), Length(min=9, max=20)])
+    rg = StringField("RG", validators=[DataRequired(), Unique(Prontuario, Prontuario.rg), Length(min=9, max=20)])
     cartao_sus = StringField("Cartao Sus", validators=[Optional(), Length(min=18, max=18)])
 
     convenio = SelectField("Convênio", choices=CONVENIO, validators=[DataRequired()])
@@ -114,10 +114,10 @@ class FormProntuario(FlaskForm):
     bairro = StringField("Bairro", validators=[Optional()])
 
 
-    responsavel = StringField("Nome Completo", validators=[DataRequired()])
+    responsavel = StringField("Responsável", validators=[DataRequired()])
     relacao = StringField("Relação/Parentesco", validators=[DataRequired()])
-    cpf_resp = StringField("Cadastro de Pessoa Física (CPF)", validators=[DataRequired(), Unique(Prontuario, Prontuario.cpf_resp), Length(min=9, max=20)])
-    rg_resp = StringField("Registro Geral (RG)", validators=[DataRequired(),  Unique(Prontuario, Prontuario.rg_resp), Length(min=9, max=20)])
+    cpf_resp = StringField("CPF do Responsável", validators=[DataRequired(), Unique(Prontuario, Prontuario.cpf_resp), Length(min=9, max=20)])
+    rg_resp = StringField("RG do Responsável", validators=[DataRequired(),  Unique(Prontuario, Prontuario.rg_resp), Length(min=9, max=20)])
     contrib = StringField("Contribuição Voluntária", validators=[Optional()])
 
     contato = StringField("Contato Principal", validators=[DataRequired()])

@@ -5,8 +5,12 @@
 {% block body %}
 <form method="POST" action="" id="prontuarioForm" class="c-stepper l-container l-form-layout">
     <div class="l-form-layout__header">
-        <div class="c-stepper__counter c-stepper__counter--active" id="step-indicator-1" data-target="1"><div class="step-counter">1</div></div>
-        <div class="c-stepper__counter" id="step-indicator-2" data-target="2"><div class="step-counter">2</div></div>
+        <div class="u-column u-column__center">
+            <div class="c-stepper__counter c-stepper__counter--active">
+                <i class="bi bi-person-plus c-icon--lg"></i>
+            </div>
+            <span class="u-subsection ">Nova Admissão</span>
+        </div>
     </div>
 
     <div class="l-form-layout__content">
@@ -28,6 +32,13 @@
                 {{ render_field(form.convenio, wrapper_class="c-form-field--span-6", data_bind="convenio") }}
                 {{ render_field(form.mae, data_bind="mae", wrapper_class="c-form-field--span-6") }}
 
+                {{ render_field(form.responsavel, data_bind="responsavel", wrapper_class="c-form-field--span-12") }}
+
+                {{ render_field(form.cpf_resp, class_="mask-cpf validate-cpf", id="cpf_resp", placeholder="000.000.000-00", data_bind="cpf_resp", wrapper_class="c-form-field--span-6") }}
+                {{ render_field(form.rg_resp, class_="mask-rg", id="rg_resp", placeholder="00.000.000-0", data_bind="rg_resp", wrapper_class="c-form-field--span-6") }}
+
+
+
 
 
             </div>
@@ -46,43 +57,22 @@
 
                 {{ render_field(form.estado_civil, id="estado_civil", data_bind="estado_civil", wrapper_class="c-form-field--span-6") }}
                 {{ render_field(form.conjuge, data_bind="conjuge",  wrapper_class="c-form-field--span-6") }}
+
+                {{ render_field(form.contrib, data_bind="contrib", wrapper_class="c-form-field--span-6") }}
+                {{ render_field(form.relacao, data_bind="relacao", wrapper_class="c-form-field--span-6") }}
+
+
+                {{ render_field(form.contato, class_="mask-phone", id="contato", data_bind="contato", wrapper_class="c-form-field--span-6") }}
+                {{ render_field(form.contato_dois, class_="mask-phone", id="contato_dois", data_bind="contato_dois", wrapper_class="c-form-field--span-6") }}
             </div>
         </div>
     </div>
+
         <div class="l-form-layout__footer">
-            <button type="button" class="c-btn c-btn--primary" data-stepper-action="next" data-target="2">Próximo</button>
+            {{ form.botao_confirmacao(class_="c-btn c-btn--primary") }}
         </div>
 </form>
 
-        <div class="form-step" id="step-4" style="display: none;">
-            <h2>Dados do Responsável</h2>
-
-            {{ render_field(form.responsavel, data_bind="responsavel") }}
-
-            <div class="">
-                {{ render_field(form.relacao, data_bind="relacao") }}
-                {{ render_field(form.contrib, data_bind="contrib") }}
-            </div>
-
-            <h3>Contato</h3>
-            <div class="">
-                {{ render_field(form.contato, class_="mask-phone", id="contato", data_bind="contato") }}
-                {{ render_field(form.contato_dois, class_="mask-phone", id="contato_dois", data_bind="contato_dois") }}
-            </div>
-
-            <h3 style="font-size: 1rem; margin-top: 15px; border-bottom: 1px solid #eee;">Documentos</h3>
-            <div class="">
-                {{ render_field(form.cpf_resp, class_="mask-cpf validate-cpf", id="cpf_resp", placeholder="000.000.000-00", data_bind="cpf_resp") }}
-                {{ render_field(form.rg_resp, class_="mask-rg", id="rg_resp", placeholder="00.000.000-0", data_bind="rg_resp") }}
-            </div>
-
-            <div class="btn-align">
-                <button type="button" class="c-btn c-btn--secondary" data-stepper-action="prev" data-target="3">Voltar</button>
-                {{ form.botao_confirmacao(class_="btn btn-primary") }}
-            </div>
-        </div>
-
-</div>
 {% endblock %}
 
 {% block scripts %}

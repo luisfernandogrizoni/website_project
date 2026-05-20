@@ -8,7 +8,7 @@
 </div>
 
 <div class="l-sidebar__content">
-        <a href="{{ url_for('social.prontuario') }}" class="c-sidebar__item"><i class="bi bi-plus-circle"></i>Nova Admissão</a>
+        <a href="{{ url_for('social.prontuario') }}" class="c-sidebar__item"><i class="bi bi-person-plus"></i></i>Nova Admissão</a>
         {% if current_user.is_authenticated and current_user.cargo_obj.nome in ['Admin'] %}
             <a href="{{ url_for('admin.novo_funcionario') }}" class="c-sidebar__item"><i class="bi bi-plus-circle"></i>Novo Funcionário</a>
         {% endif %}

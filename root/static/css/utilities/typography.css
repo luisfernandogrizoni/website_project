@@ -1,4 +1,6 @@
 .u-subsection {
-    color: #868E96;
-    margin-bottom: 2rem;
+    color: var(--c-slate-hover);
+    font-size: 1.5rem;
+    margin: 2rem 4rem;
+    font-weight: 600;
 }
