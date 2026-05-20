@@ -65,24 +65,3 @@
     flex-direction: column;
     gap: 0.5rem;
 }
-
-
-
-.u-hidden ~ .l-content,
-.l-app-layout:has(.u-hidden) {
-    grid-template-rows: 1fr;
-}
-
-.split-image {
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-    position: relative;
-    background-color: crimson;
-    object-fit: contain;
-    object-position: top right;
-    display: block;
-}
