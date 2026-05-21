@@ -7,6 +7,11 @@
     align-items: center;
 }
 
+.u-row {
+    display: flex;
+    flex-direction: row;
+}
+
 .u-row__center {
     justify-content: center;
 }

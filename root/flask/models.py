@@ -114,10 +114,6 @@ class Funcionario(PersonMixin, BaseModel, UserMixin, ActiveMixin):
         """Validador rápido de privilégio máximo."""
         return self.cargo_nome == 'Admin'
 
-class Convenios(BaseModel, ActiveMixin, TimestampMixin):
-    nome = database.Column(database.String, nullable=False)
-    internos = database.relationship("Prontuario", backref='convenio_obj', lazy=True, cascade="all, delete-orphan")
-
 class Consulta(BaseModel):
     primeiro_contato = database.Column(database.DateTime, nullable=False, default=datetime.now)
     triagem = database.Column(database.DateTime, nullable=True)
@@ -129,7 +125,6 @@ class Consulta(BaseModel):
 
 class Prontuario(BaseModel, ActiveMixin, PersonMixin, AddressMixin, TimestampMixin):
     funcionario_id = database.Column(database.Integer, database.ForeignKey('funcionario.id'), nullable=False)
-    convenio_id = database.Column(database.Integer, database.ForeignKey('convenios.id'), nullable=False)
     consulta_id = database.relationship('Consulta', backref='consulta', lazy=True, cascade="all, delete-orphan")
 
     internacao = database.Column(database.DateTime, nullable=False, default=datetime.now)
@@ -142,6 +137,7 @@ class Prontuario(BaseModel, ActiveMixin, PersonMixin, AddressMixin, TimestampMix
     mae = database.Column(database.String, nullable=False)
     estado_civil = database.Column(database.String, nullable=False)
     conjuge = database.Column(database.String, nullable=True)
+    convenio = database.Column(database.String, nullable=False)
 
     cartao_sus = database.Column(database.String, nullable=True)
 

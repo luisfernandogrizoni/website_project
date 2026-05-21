@@ -4,3 +4,10 @@
     margin: 2rem 4rem;
     font-weight: 600;
 }
+
+.u-footer {
+    color: var(--c-slate);
+    font-size: 1rem;
+    margin: 2rem 4rem;
+    font-weight: 600;
+}

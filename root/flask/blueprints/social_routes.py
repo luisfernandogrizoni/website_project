@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, flash, redirect, url_for, jsonify, current_app
+from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import login_required, current_user
 from root.flask import database
 from root.flask.models import Prontuario, Funcionario, Consulta
@@ -18,6 +18,7 @@ def prontuario():
     if form.validate_on_submit():
             prontuario = Prontuario(funcionario_id=current_user.id) # Rastreabilidade: Quem criou?
             form.populate_obj(prontuario)
+
 
             # Limpeza manual de dados críticos antes de persistir
             prontuario.cpf = limpar_numeros(form.cpf.data)
@@ -43,8 +44,11 @@ def dados():
         Dashboard de Prontuários.
         Separa logicamente os pacientes ativos dos inativos para não sobrecarregar as tabelas do front-end.
     """
-    ativos = Prontuario.query.filter_by(ativo=True).all()
-    inativos = Prontuario.query.filter_by(ativo=False).order_by(Prontuario.data_saida.desc()).all()
+    page_ativos = request.args.get('page_ativos', 1, type=int)
+    page_inativos = request.args.get('page_inativos', 1, type=int)
+
+    ativos = Prontuario.query.filter_by(ativo=True).paginate(page=page_ativos, per_page=15, error_out=False)
+    inativos = Prontuario.query.filter_by(ativo=False).order_by(Prontuario.data_saida.desc()).paginate(page=page_inativos, per_page=15, error_out=False)
     return render_template("social/dados.html", lista_ativos=ativos, lista_inativos=inativos)
 
 @social_bp.route("/agenda")

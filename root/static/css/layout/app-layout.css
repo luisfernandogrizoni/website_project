@@ -11,6 +11,7 @@
     justify-items: center;
     grid-area: content;
     margin: 2rem 0.1rem 0.1rem 0.1rem;
+    padding: 3rem 2rem;
 }
 
 /**
@@ -21,6 +22,8 @@
 
 .l-app-layout__sidebar{
     grid-area: sidebar;
+    position: fixed;
+    height: 100%;
     display: grid;
     grid-template-rows: 0.3fr 2fr auto;
     padding: 2rem 0 ;

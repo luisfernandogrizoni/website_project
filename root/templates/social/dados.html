@@ -1,5 +1,50 @@
 {% extends "base.html" %}
 {% from "_macros.html" import render_badge_convenio %}
+{% from "_macros.html" import render_linha_tabela %}
 {% block titulo %}Lista de Internos{% endblock %}
 
 {% block body %}
+    {% if lista_ativos.total == 0 %}
+        <div>Nenhum registro encontrado.</div>
+    {% else %}
+
+    <table class="c-table">
+        <thead>
+            <tr class="c-table--row">
+                <th class="c-table__cell c-table__cell--header">Data de Internação</th>
+                <th class="c-table__cell c-table__cell--header">Nome</th>
+                <th class="c-table__cell c-table__cell--header">CPF</th>
+                <th class="c-table__cell c-table__cell--header">RG</th>
+                <th class="c-table__cell c-table__cell--header">Convênio</th>
+                <th class="c-table__cell c-table__cell--header">Cidade</th>
+                <th class="c-table__cell c-table__cell--header">Responsável</th>
+                <th class="c-table__cell c-table__cell--header">Contato</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for ativo in lista_ativos.items %}
+                <tr class="c-table__row">
+                    <td class="c-table__cell c-table__cell--numeric">{{ ativo.internacao }}</td>
+                    <td class="c-table__cell">{{ ativo.nome }}</td>
+                    <td class="c-table__cell c-table__cell--numeric">{{ ativo.cpf }}</td>
+                    <td class="c-table__cell c-table__cell--numeric">{{ ativo.rg }}</td>
+                    <td class="c-table__cell">{{ render_badge_convenio(ativo.convenio) }}</td>
+                    <td class="c-table__cell">{{ ativo.cidade }}</td>
+                    <td class="c-table__cell">{{ ativo.responsavel}}</td>
+                    <td class="c-table__cell c-table__cell--numeric">{{ ativo.contato }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="u-row u-row__center">
+    <span class="u-footer">Página {{ lista_ativos.page }} de {{ lista_ativos.pages }}</span>
+        {% if lista_ativos.has_prev %}
+            <a class="c-btn c-btn--secondary" href="{{ url_for('social.dados', page_ativos=lista_ativos.prev_num) }}">Voltar</a>
+        {% endif %}
+        {% if lista_ativos.has_next %}
+            <a class="c-btn c-btn--primary" href="{{ url_for('social.dados', page_ativos=lista_ativos.next_num) }}">Avançar</a>
+        {% endif %}
+    </div>
+    {% endif %}
+{% endblock %}

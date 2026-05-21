@@ -9,6 +9,8 @@ def popular_banco_command():
     from root.flask.extensions import database, bcrypt
     from root.flask.models import Cargo, Funcionario
 
+    database.create_all()
+
     print("--- Criando Cargos ---")
     c_admin = Cargo(nome='Admin')
     c_social = Cargo(nome='Assistente Social')

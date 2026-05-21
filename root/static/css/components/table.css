@@ -1,0 +1,50 @@
+/* ==========================================
+   BLOCO: Tabela Padrão (.c-table)
+   ========================================== */
+
+/* O Bloco Pai */
+.c-table {
+    gap: 1rem;
+    border-radius: var(--radius-sm);
+    background-color: var(--c-surface);
+    font-family: Arial, sans-serif;
+    font-size: 0.95rem;
+    white-space: nowrap;
+    border-collapse: separate;
+    border-spacing: 0;
+    overflow: hidden;
+}
+
+/* O Elemento: Célula (Header e Body) */
+.c-table__cell {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--c-bg); /* Linha divisória sutil */
+    text-align: left;
+}
+
+.c-table__cell--header {
+    text-align: center;
+}
+
+/* MODIFICADOR: Célula para Valores Numéricos (Alinhada à direita) */
+.c-table__cell--numeric {
+    text-align: right;
+    font-weight: 600;
+}
+
+/* O Elemento: Linha */
+.c-table__row {
+    transition: background-color 0.2s ease; /* Animação suave */
+}
+
+/* ESTADO 1: Linhas Zebradas (As linhas pares ganham fundo cinza claro) */
+.c-table__row:nth-child(even) {
+    background-color: var(--c-surface);
+}
+
+/* ESTADO 2: Hover (A linha escurece quando o mouse passa por cima) */
+.c-table__row:hover {
+    background-color: var(--c-bg);
+}
+
+
