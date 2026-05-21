@@ -18,6 +18,7 @@
 .c-icon--lg { font-size: 2rem; }
 
 .c-form-field__label {
+    white-space: nowrap;
     display: block;
     font-size: 0.85rem;
     font-weight: 600;

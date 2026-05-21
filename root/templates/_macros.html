@@ -37,34 +37,34 @@
 
 {% macro render_badge_convenio(convenio) %}
     {# Define uma classe base/padrão como fallback de segurança #}
-    {% set classe = 'badge-padrao' %}
+    {% set classe = 'c-badge-padrao' %}
 
     {# Normaliza o texto recebido para letras minúsculas. Isso evita bugs de digitação (ex: "Social", "SOCIAL" e "social" serão lidos da mesma forma) #}
     {% set conv_lower = convenio | lower %}
 
         {# Árvore de Decisão: Mapeia palavras-chave para suas respectivas classes visuais #}
         {% if 'social' in conv_lower %}
-            {% set classe = 'badge-social' %}
-            <span class="badge {{ classe }}">Social</span>
+            {% set classe = 'c-badge-social' %}
+            <span class="c-badge {{ classe }}">Social</span>
 
         {% elif 'particular' in conv_lower %}
-            {% set classe = 'badge-particular' %}
-            <span class="badge {{ classe }}">Particular</span>
+            {% set classe = 'c-badge-particular' %}
+            <span class="c-badge {{ classe }}">Particular</span>
 
-        {% elif 'capsAD' in conv_lower %}
-            {% set classe = 'badge-caps' %}
-            <span class="badge {{ classe }}">Caps AD</span>
+        {% elif 'capsad' in conv_lower %}
+            {% set classe = 'c-badge-caps' %}
+            <span class="c-badge {{ classe }}">Caps AD</span>
 
         {% elif 'taruma' in conv_lower %}
-            {% set classe = 'badge-taruma' %}
-            <span class="badge {{ classe }}">Convênio Tarumã</span>
+            {% set classe = 'c-badge-taruma' %}
+            <span class="c-badge {{ classe }}">Convênio Tarumã</span>
 
         {% else %}
             {# Se for um convênio desconhecido, usa a classe padrão e exibe a string original que veio do banco #}
-            <span class="badge {{ classe }}">{{ convenio }}</span>
+            <span class="c-badge {{ classe }}">{{ convenio }}</span>
         {% endif %}
 
- {# <span class="badge {{ classe }}">{{ convenio | title }}</span> #}
+ {# <span class="c-badge {{ classe }}">{{ convenio | title }}</span> #}
 {% endmacro %}
 
 

@@ -25,20 +25,20 @@
         <tbody>
             {% for ativo in lista_ativos.items %}
                 <tr class="c-table__row">
-                    <td class="c-table__cell c-table__cell--numeric">{{ ativo.internacao }}</td>
-                    <td class="c-table__cell">{{ ativo.nome }}</td>
-                    <td class="c-table__cell c-table__cell--numeric">{{ ativo.cpf }}</td>
-                    <td class="c-table__cell c-table__cell--numeric">{{ ativo.rg }}</td>
+                    <td class="c-table__cell">{{ ativo.internacao | mask_data }}</td>
+                    <td class="c-table__cell">{{ ativo.nome | mask_str}}</td>
+                    <td class="c-table__cell">{{ ativo.cpf | mask_cpf }}</td>
+                    <td class="c-table__cell">{{ ativo.rg | mask_rg}}</td>
                     <td class="c-table__cell">{{ render_badge_convenio(ativo.convenio) }}</td>
-                    <td class="c-table__cell">{{ ativo.cidade }}</td>
-                    <td class="c-table__cell">{{ ativo.responsavel}}</td>
-                    <td class="c-table__cell c-table__cell--numeric">{{ ativo.contato }}</td>
+                    <td class="c-table__cell">{{ ativo.cidade | mask_str }}</td>
+                    <td class="c-table__cell">{{ ativo.responsavel | mask_str }}</td>
+                    <td class="c-table__cell">{{ ativo.contato }}</td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
     <div class="u-row u-row__center">
-    <span class="u-footer">Página {{ lista_ativos.page }} de {{ lista_ativos.pages }}</span>
+        <span class="u-footer">Página {{ lista_ativos.page }} de {{ lista_ativos.pages }}</span>
         {% if lista_ativos.has_prev %}
             <a class="c-btn c-btn--secondary" href="{{ url_for('social.dados', page_ativos=lista_ativos.prev_num) }}">Voltar</a>
         {% endif %}

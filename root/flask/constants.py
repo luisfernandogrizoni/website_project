@@ -8,10 +8,10 @@ ESTADO_CIVIL = [
 ]
 
 CONVENIO = [
-    ('capsAD', 'Caps AD'),
+    ('capsad', 'Caps AD'),
     ('particular', 'Particular'),
     ('social', 'Social'),
-    ('taruma', 'Convênio Tarumâ'),
+    ('taruma', 'Convênio Tarumã'),
     ('outro', 'Outro')
 ]
 

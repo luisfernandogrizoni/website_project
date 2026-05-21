@@ -4,10 +4,10 @@
 
 /* O Bloco Pai */
 .c-table {
+    width: 100%;
     gap: 1rem;
     border-radius: var(--radius-sm);
     background-color: var(--c-surface);
-    font-family: Arial, sans-serif;
     font-size: 0.95rem;
     white-space: nowrap;
     border-collapse: separate;
@@ -26,12 +26,6 @@
     text-align: center;
 }
 
-/* MODIFICADOR: Célula para Valores Numéricos (Alinhada à direita) */
-.c-table__cell--numeric {
-    text-align: right;
-    font-weight: 600;
-}
-
 /* O Elemento: Linha */
 .c-table__row {
     transition: background-color 0.2s ease; /* Animação suave */
@@ -47,4 +41,26 @@
     background-color: var(--c-bg);
 }
 
+.c-badge {
+    border-radius: var(--radius-lg);
+    padding: 8px 10px;
+    color: var(--c-surface);
+    font-weight: 600;
+}
+
+.c-badge-caps {
+    background-color: var(--c-action);
+}
+
+.c-badge-particular {
+    background-color: darkslateblue;
+}
+
+.c-badge-social {
+    background-color: cadetblue;
+}
+
+.c-badge-taruma {
+    background-color: coral;
+}
 

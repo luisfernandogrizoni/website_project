@@ -5,63 +5,49 @@
 {% block titulo %}Novo Funcionário{% endblock %}
 
 {% block body %}
-<div class="form-container">H
-    <div class="stepper-wrapper">
-        <div class="stepper-item stepper-link active" id="step-indicator-1" data-target="1"><div class="step-counter">1</div><div>Pessoal</div></div>
-        <div class="stepper-item stepper-link" id="step-indicator-2" data-target="2"><div class="step-counter">2</div><div>Endereço</div></div>
+<form method="POST" action="" id="FormFuncionario" class="c-stepper l-container l-form-layout">
+    {{ form_funcionario.csrf_token }}
+    <div class="l-form-layout__header">
+        <div class="u-column u-column__center">
+            <div class="c-stepper__counter c-stepper__counter--active">
+                <i class="bi bi-plus-circle c-icon--lg"></i>
+            </div>
+            <span class="u-subsection">Novo Funcionário</span>
+        </div>
     </div>
 
-    <form method="POST" action="" id="FormFuncionario">
-        {{ form_funcionario.csrf_token }}
+    <div class="l-form-layout__content">
+        <div class="l-grid--2-cols">
 
-        <div class="form-step" id="step-1">
-            <h2>Dados Pessoais</h2>
+            <div class="l-grid-12">
+                    {{ render_field(form_funcionario.nome, placeholder='João da Silva', wrapper_class="c-form-field--span-12") }}
 
-            <div class="form-row">
-                {{ render_field(form_funcionario.nome, placeholder='João da Silva') }}
-                {{ render_field(form_funcionario.email, placeholder='email@sistema.com') }}
+                    {{ render_field(form_funcionario.cpf, class_="mask-cpf validate-cpf", placeholder='000.000.000-00', wrapper_class="c-form-field--span-4") }}
+                    {{ render_field(form_funcionario.rg, placeholder='00.000.000-00', wrapper_class="c-form-field--span-4") }}
+                    {{ render_field(form_funcionario.data_nascimento, wrapper_class="c-form-field--span-4") }}
+
+                    {{ render_field(form_funcionario.email, placeholder='email@sistema.com', wrapper_class="c-form-field--span-4") }}
+                    {{ render_field(form_funcionario.contratacao, placeholder='CLT, Contrato', wrapper_class="c-form-field--span-4") }}
+                    {{ render_field(form_funcionario.cargo, placeholder='Administrativo, Administrador, Social', wrapper_class="c-form-field--span-4") }}
             </div>
 
-            <div class="form-row">
-                {{ render_field(form_funcionario.cpf, class_="mask-cpf validate-cpf", placeholder='000.000.000-00') }}
-                {{ render_field(form_funcionario.rg, placeholder='00.000.000-00') }}
-                {{ render_field(form_funcionario.data_nascimento) }}
-            </div>
+            <div class="l-grid-12">
+                    {{ render_field(form_funcionario.senha, placeholder='******', wrapper_class="c-form-field--span-6") }}
+                    {{ render_field(form_funcionario.confirmacao_senha, placeholder='******', wrapper_class="c-form-field--span-6") }}
 
-            <div class="form-row">
-                {{ render_field(form_funcionario.contratacao, placeholder='CLT, Contrato') }}
-                {{ render_field(form_funcionario.cargo, placeholder='Administrativo, Administrador, Social') }}
-            </div>
+                    {{ render_field(form_funcionario.cep, placeholder='00000-000', wrapper_class="c-form-field--span-4" ) }}
+                    {{ render_field(form_funcionario.cidade, wrapper_class="c-form-field--span-4") }}
+                    {{ render_field(form_funcionario.estado, wrapper_class="c-form-field--span-4") }}
 
-            <button type="button" class="btn btn-primary" data-stepper-action="next" data-target="2">Próximo</button>
-        </div>
-
-
-        <div class="form-step" id="step-2">
-            <h2 style="text-align: center">Endereço</h2>
-
-            <div class="form-row">
-                {{ render_field(form_funcionario.senha, placeholder='******') }}
-                {{ render_field(form_funcionario.confirmacao_senha, placeholder='******') }}
-            </div>
-
-            <div class="form-row">
-                {{ render_field(form_funcionario.cep, placeholder='00000-000') }}
-                {{ render_field(form_funcionario.bairro) }}
-            </div>
-            <div class="form-row">
-                {{ render_field(form_funcionario.cidade) }}
-                {{ render_field(form_funcionario.estado) }}
-            </div>
-            <div class="form-row">
-                {{ render_field(form_funcionario.rua) }}
-                {{ render_field(form_funcionario.num) }}
-            </div>
-            <div class="btn-align">
-                <button type="button" class="btn btn-secondary" data-stepper-action="prev" data-target="1">Voltar</button>
-                {{ form_funcionario.botao_confirmacao(class_="btn btn-primary") }}
+                    {{ render_field(form_funcionario.bairro, wrapper_class="c-form-field--span-4") }}
+                    {{ render_field(form_funcionario.rua, wrapper_class="c-form-field--span-4") }}
+                    {{ render_field(form_funcionario.num, wrapper_class="c-form-field--span-4") }}
             </div>
         </div>
-    </form>
-</div>
+    </div>
+
+    <div class="l-form-layout__footer">
+        {{ form_funcionario.botao_confirmacao(class_="c-btn c-btn--primary") }}
+    </div>
+</form>
 {% endblock %}

@@ -3,6 +3,7 @@ from flask import Flask, render_template, flash, url_for, redirect
 from root.flask.extensions import database, login_manager, bcrypt, csrf, migrate
 import logging
 from logging.handlers import RotatingFileHandler
+from root.flask.filters import mask_cpf, mask_rg, mask_data, mask_str
 
 def create_app():
     app = Flask(__name__,
@@ -10,6 +11,10 @@ def create_app():
                 template_folder='../templates',
                 static_folder='../static')
     uri = os.environ.get("DATABASE_URL")
+    app.jinja_env.filters['mask_cpf'] = mask_cpf
+    app.jinja_env.filters['mask_rg'] = mask_rg
+    app.jinja_env.filters['mask_data'] = mask_data
+    app.jinja_env.filters['mask_str'] = mask_str
     if uri and uri.startswith("postgres://"):
         uri = uri.replace("postgres://", "postgresql://", 1)
 

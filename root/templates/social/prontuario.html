@@ -1,9 +1,10 @@
 {% extends "base.html" %} {% from "_macros.html" import render_field %}
 
-{% block titulo %}Internação{% endblock %}
+{% block titulo %}Admissão{% endblock %}
 
 {% block body %}
 <form method="POST" action="" id="prontuarioForm" class="c-stepper l-container l-form-layout">
+    {{ form.csrf_token }}
     <div class="l-form-layout__header">
         <div class="u-column u-column__center">
             <div class="c-stepper__counter c-stepper__counter--active">
@@ -15,7 +16,6 @@
 
     <div class="l-form-layout__content">
         <div class="l-grid--2-cols">
-            {{ form.csrf_token }}
 
             <div class="l-grid-12">
                 {{ render_field(form.nome, wrapper_class="c-form-field--span-12", placeholder="Ex: João da Silva", data_bind="nome") }}
