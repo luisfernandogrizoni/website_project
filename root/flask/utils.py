@@ -6,8 +6,8 @@ from flask.cli import with_appcontext
 @with_appcontext
 def popular_banco_command():
     """Popula o banco de dados com os cargos e o usuário Admin."""
-    from root.flask.extensions import database, bcrypt
-    from root.flask.models import Cargo, Funcionario
+    from root.flask import database, bcrypt
+    from root.flask import Cargo, Funcionario
 
     database.create_all()
 

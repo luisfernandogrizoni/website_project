@@ -2,8 +2,8 @@ from flask import Blueprint, render_template, redirect, url_for, flash
 from flask_login import login_required, login_user, logout_user
 
 from root.flask import bcrypt
-from root.flask.forms import FormLogin
-from root.flask.models import Funcionario
+from root.flask.main.forms import FormLogin
+from root.flask.main.models import Funcionario
 
 # ------------------- AUTENTICAÇÃO E ROTEAMENTO BASE ------------------- #
 
@@ -29,7 +29,7 @@ def login():
             if func.is_active: # Validação de segurança: Impede o acesso de utilizadores desativados
                 if bcrypt.check_password_hash(func.senha, form_login.senha.data):
                     login_user(func, remember=True)
-                    flash(f"Bem-vindo, {func.nome.split()[0].capitalize()[0]}!", category="success")
+                    flash(f"Bem-vindo, {func.nome.split()[0].capitalize()}!", category="success")
                     return redirect(url_for('main.inicio'))
                 else:
                     flash('Senha incorreta. Tente novamente!', category="danger")
@@ -47,4 +47,3 @@ def logout():
     """Sai da sessão atual do utilizador de forma segura."""
     logout_user()
     return redirect(url_for("main.login",))
-

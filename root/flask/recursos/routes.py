@@ -1,8 +1,8 @@
-from flask import Blueprint, flash, redirect, url_for, current_app, request, render_template
+from flask import Blueprint, flash, redirect, url_for, request, render_template
 
 from root.flask import database, bcrypt
-from root.flask.forms import FormFuncionario, FormCargo
-from root.flask.models import Funcionario, Cargo
+from root.flask.main.forms import FormCargo, FormFuncionario
+from root.flask.main.models import Funcionario, Cargo
 from root.flask.utils import roles_required, limpar_numeros, db_persist
 
 # ------------------- ADMINISTRAÇÃO DO SISTEMA ------------------- #

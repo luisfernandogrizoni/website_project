@@ -1,20 +1,71 @@
-from datetime import datetime, date
+from datetime import datetime
 
-from flask import jsonify, Blueprint, request, flash, url_for, redirect
-from flask_login import login_required
-from flask_wtf import csrf
-
+from flask import Blueprint, render_template, request, flash, redirect, url_for, jsonify
+from flask_login import login_required, current_user
 from root.flask import database
-from root.flask.forms import FormConsulta
-from root.flask.models import Consulta, Funcionario, Prontuario
-from root.flask.utils import roles_required, limpar_numeros, db_persist
+from root.flask.main.models import Funcionario
+from root.flask.social.forms import FormProntuario, FormConsulta
+from root.flask.social.models import Prontuario
+from root.flask.utils import limpar_numeros, roles_required, db_persist
 
-# ------------------- API RESTFUL (Comunicação Assíncrona) ------------------- #
+# ------------------- OPERAÇÕES SOCIAIS (Apresentação) ------------------- #
 
-api_bp = Blueprint('api', __name__)
-url_prefix = '/api'
+social_bp = Blueprint('social', __name__)
+url_prefix = '/social'
 
-@api_bp.route('/api/paciente/<int:id>', methods=['GET'])
+@social_bp.route("/prontuario", methods=["GET", "POST"])
+@roles_required(['Social', 'Admin'])
+def prontuario():
+    form = FormProntuario()
+
+    if form.validate_on_submit():
+            prontuario = Prontuario(funcionario_id=current_user.id) # Rastreabilidade: Quem criou?
+            form.populate_obj(prontuario)
+
+
+            # Limpeza manual de dados críticos antes de persistir
+            prontuario.cpf = limpar_numeros(form.cpf.data)
+            prontuario.rg = limpar_numeros(form.rg.data)
+            prontuario.cpf_resp = limpar_numeros(form.cpf_resp.data)
+            prontuario.rg_resp = limpar_numeros(form.rg_resp.data)
+            prontuario.cartao_sus = limpar_numeros(form.cartao_sus.data)
+
+            database.session.add(prontuario)
+
+            if db_persist(prontuario, f'Interno {prontuario.nome} cadastrado com sucesso!', 'success'):
+                return redirect(url_for("social.dados"))
+
+    elif request.method == 'POST':
+        flash('Houve um erro no formulário. Verifique os campos em vermelho.', 'danger')
+
+    return render_template("social/prontuario.html", form=form)
+
+@social_bp.route("/dados", methods=["GET", "POST"])
+@login_required
+def dados():
+    """
+        Dashboard de Prontuários.
+        Separa logicamente os pacientes ativos dos inativos para não sobrecarregar as tabelas do front-end.
+    """
+    page_ativos = request.args.get('page_ativos', 1, type=int)
+    page_inativos = request.args.get('page_inativos', 1, type=int)
+
+    ativos = Prontuario.query.filter_by(ativo=True).paginate(page=page_ativos, per_page=15, error_out=False)
+    inativos = Prontuario.query.filter_by(ativo=False).order_by(Prontuario.data_saida.desc()).paginate(page=page_inativos, per_page=15, error_out=False)
+    return render_template("social/dados.html", lista_ativos=ativos, lista_inativos=inativos)
+
+@social_bp.route("/agenda")
+@login_required
+def agenda():
+    form = FormConsulta()
+    form.funcionario.choices = [(f.id, f.nome) for f in
+    Funcionario.query.filter_by(ativo=True).order_by(Funcionario.nome).all()]
+    form.categoria.choices = [(c.id, c.tipo) for c in Categoria.query.order_by(Categoria.tipo).all()]
+
+    return render_template('social/agenda.html', form=form)
+
+
+@social_bp.route('/api/paciente/<int:id>', methods=['GET'])
 @roles_required(['Admin', 'Social'])
 def api_detalhes_paciente(id):
     try:
@@ -25,7 +76,7 @@ def api_detalhes_paciente(id):
         print(f"Erro na API: {e}")
         return jsonify({'error': str(e)}), 500
 
-@api_bp.route('/api/paciente/<int:id>/edicao', methods=['PATCH'])
+@social_bp.route('/api/paciente/<int:id>/edicao', methods=['PATCH'])
 @roles_required(['Admin', 'Social'])
 def edicao_prontuario(id):
     """
@@ -66,7 +117,7 @@ def edicao_prontuario(id):
         database.session.rollback()
         return jsonify({'error': f'Erro interno: {str(e)}'}), 500
 
-@api_bp.route('/api/paciente/<int:id>/baixa', methods=['PATCH'])
+@social_bp.route('/api/paciente/<int:id>/baixa', methods=['PATCH'])
 @roles_required(['Admin', 'Social'])
 def inativar_prontuario(id):
     """
@@ -98,7 +149,7 @@ def inativar_prontuario(id):
             return jsonify({'error': str(e)}), 500
 
 
-@api_bp.route('/api/pacientes', methods=['GET'])
+@social_bp.route('/api/pacientes', methods=['GET'])
 @roles_required(['Admin', 'Social'])
 def api_pacientes(id):
     """
@@ -115,74 +166,4 @@ def api_pacientes(id):
         # Registre o erro no log do servidor
         print(f"Erro na API de Pacientes: {e}")
         return jsonify({"erro": "Falha ao buscar dados no servidor."}), 500
-
-#todo: repensar a lógica
-'''
-@api_bp.route("/api/agendamentos")
-@roles_required(['Admin', 'Social'])
-def api_agendamentos():
-    """
-        Endpoint de Leitura (GET).
-        Faz um JOIN entre Consulta, Funcionariopara formatar os dados
-        exatamente como a biblioteca do Calendário no front-end exige.
-    """
-    resultados = database.session.query(
-        Consulta, Funcionario, Categoria
-    ).join(
-        Funcionario, Consulta.funcionario_id == Funcionario.id
-    ).join(
-        Categoria, Consulta.categoria_id == Categoria.id
-    ).all()
-
-    eventos = []
-    for consulta, func, cat in resultados:
-        cor = '#3788d8'
-        if 'Triagem' in cat.tipo:
-            cor = '#28a745'
-        elif 'Internação' in cat.tipo:
-            cor = '#dc3545'
-        eventos.append({
-            'id': consulta.id,
-            'title': f"{consulta.nome} ({cat.tipo})",
-            'start': consulta.hora.isoformat(),
-            'extendedProps': {
-                'funcionario': func.nome,
-                'descricao': consulta.descricao,
-                'categoria': cat.tipo
-            },
-            'color': cor
-        })
-
-    return jsonify(eventos)
-
-@api_bp.route("/api/agendamentos/novo", methods=["POST"])
-@roles_required(['Admin', 'Social'])
-def api_criar_agendamento():
-    """
-        Endpoint de Leitura (GET).
-        Faz um JOIN entre Consulta, Funcionario e Categoria para formatar os dados
-        exatamente como a biblioteca do Calendário no front-end exige.
-    """
-    form = FormConsulta()
-    form.funcionario.choices = [(f.id, f.nome) for f in Funcionario.query.all()]
-    form.categoria.choices = [(c.id, c.tipo) for c in Categoria.query.all()]
-
-    if form.validate_on_submit():
-        agendamento = Consulta()
-        form.populate_obj(agendamento)
-        agendamento.funcionario_id=form.funcionario.data
-        agendamento.categoria_id=form.categoria.data
-
-        database.session.add(agendamento)
-
-        if db_persist(agendamento, f'Agendamento registrado com sucesso!', 'success'):
-            return redirect(url_for("social.agenda"))
-
-    elif request.method == "POST":
-        flash('Houve um erro no formulário. Verifique os campos em vermelho.', 'danger')
-
-    return jsonify({'status': 'error', 'errors': form.errors}), 400
-'''
-
-
 

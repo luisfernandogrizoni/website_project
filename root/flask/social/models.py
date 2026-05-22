@@ -1,120 +1,15 @@
 import re
 from datetime import datetime, date
+
 from dateutil.relativedelta import relativedelta
-from sqlalchemy.orm import declarative_base, backref
-from sqlalchemy.ext.declarative import declared_attr
-from root.flask.extensions import database, login_manager
-from flask_login import UserMixin
 
-base = declarative_base()
-#todo: adicionar captação de id de funcionário automaticamente em todas as tabelas
+from root.flask import database
+from root.flask.recursos.models import BaseModel, ActiveMixin, PersonMixin, AddressMixin, TimestampMixin
 
-# ------------------- UTILIDADES E BASE ------------------- #
-
-@login_manager.user_loader
-def load_user(id_funcionario):
-    """Carrega o usuário logado na sessão do Flask a partir do seu ID."""
-    return Funcionario.query.get(int(id_funcionario))
-
-class BaseModel(database.Model):
-    """
-        Classe abstrata base (não vira tabela no banco).
-        Todas as tabelas do sistema herdam dela para ganhar um ID padrão,
-        nomenclatura automática (Snake Case) e evitar erros de importação circular.
-    """
-    __abstract__ = True
-    id = database.Column(database.Integer, primary_key=True)
-
-    @declared_attr
-    def __tablename__(cls):
-        # Converte NomeDaClasse para nome_da_classe automaticamente
-        return re.sub(r'(?<!^)(?=[A-Z])', '_', cls.__name__).lower()
-
-    @declared_attr
-    def __table_args__(cls):
-        # Evita erro de tabela duplicada quando o Flask recarrega no modo DEV
-        return {'extend_existing': True}
-
-    def __repr__(self):
-        # Gera logs dinâmicos e legíveis no terminal (ex: <Funcionario 1 - Admin>)
-        name_val = getattr(self, 'nome', getattr(self, 'descricao', ''))
-        return f"<{self.__class__.__name__} {self.id} - {name_val}>"
-
-# ------------------- MIXINS (Peças de Composição) ------------------- #
-
-class ActiveMixin:
-    """Adiciona o conceito de 'Soft Delete' (Exclusão Lógica). Dados nunca são apagados, apenas desativados."""
-    ativo = database.Column(database.Boolean, nullable=False, default=True)
-
-    def desativar(self):
-        self.ativo = False
-
-    def ativar(self):
-        self.ativo = True
-
-class AddressMixin:
-    """Agrupa dados de endereço. Pode ser usado em Prontuario, Fornecedor, etc."""
-    cep = database.Column(database.String(9), nullable=True)
-    cidade = database.Column(database.String(100), nullable=True)
-    estado = database.Column(database.String(2), nullable=True)
-    rua = database.Column(database.String(200), nullable=True)
-    num = database.Column(database.String(20), nullable=True)
-    bairro = database.Column(database.String(100), nullable=True)
-
-    @property
-    def endereco(self):
-        """Retorna o endereço completo formatado em uma única string."""
-        return f'{self.cidade}, {self.estado}- Rua: {self.rua}, {self.num}.{self.bairro} - CEP: {self.cep}'
-
-class PersonMixin:
-    """Agrupa dados pessoais essenciais."""
-    nome = database.Column(database.String(200), nullable=False)
-    cpf = database.Column(database.String(11), nullable=False, unique=True)
-    rg = database.Column(database.String(20), nullable=False, unique=True)
-    data_nascimento = database.Column(database.Date, nullable=True)
-    contato = database.Column(database.String(100), nullable=True)
-
-    @property
-    def primeiro_nome(self):
-        """Extrai apenas o primeiro nome para uso na UI."""
-        return self.nome.split()[0] if self.nome else ""
-
-class TimestampMixin:
-    """Rastreabilidade de auditoria: Registra automaticamente QUANDO foi criado e atualizado."""
-    criado_em = database.Column(database.DateTime, default=datetime.now, nullable=False)
-    atualizado_em = database.Column(database.DateTime, onupdate=datetime.now)
-
-# ------------------- TABELAS REAIS (Entidades) ------------------- #
-
-class Cargo(BaseModel):
-    """Tabela de controle de acessos (Roles)."""
-    nome = database.Column(database.String(100), nullable=False)
-    # Relação 1:N (Um cargo para muitos funcionários)
-    funcionarios = database.relationship("Funcionario", backref='cargo_obj', lazy=True, cascade="all, delete-orphan")
-
-    def __repr__(self):
-        return f"<Cargo {self.nome}>"
-
-class Funcionario(PersonMixin, BaseModel, UserMixin, ActiveMixin):
-    """Usuários do sistema. Herda Soft Delete (ActiveMixin) e Funções de Login (UserMixin)."""
-    contratacao = database.Column(database.String, nullable=False)
-    email = database.Column(database.String, nullable=False, unique=True)
-    senha = database.Column(database.String, nullable=False)
-    cargo_id = database.Column(database.Integer, database.ForeignKey('cargo.id'), nullable=False)
-
-    consulta = database.relationship('Consulta', backref='funcionario', lazy=True, cascade="all, delete-orphan")
-    baixa = database.relationship('Prontuario', backref='funcionario', lazy=True, cascade="all, delete-orphan")
-
-    @property
-    def cargo_nome(self):
-        """Atalho para pegar a string do nome do cargo através da chave estrangeira."""
-        return self.cargo_obj.nome if self.cargo_obj else None
-
-    def is_admin(self):
-        """Validador rápido de privilégio máximo."""
-        return self.cargo_nome == 'Admin'
 
 class Consulta(BaseModel):
+    funcionario = database.relationship('Funcionario', backref='consultas_realizadas')
+
     primeiro_contato = database.Column(database.DateTime, nullable=False, default=datetime.now)
     triagem = database.Column(database.DateTime, nullable=True)
     modalidade = database.Column(database.String(100), nullable=False)
@@ -124,9 +19,10 @@ class Consulta(BaseModel):
     funcionario_id = database.Column(database.Integer, database.ForeignKey('funcionario.id'), nullable=False)
 
 class Prontuario(BaseModel, ActiveMixin, PersonMixin, AddressMixin, TimestampMixin):
-    funcionario_id = database.Column(database.Integer, database.ForeignKey('funcionario.id'), nullable=False)
-    consulta_id = database.relationship('Consulta', backref='consulta', lazy=True, cascade="all, delete-orphan")
+    funcionario = database.relationship('Funcionario', backref='prontuarios_registados')
+    consultas = database.relationship('Consulta', backref='prontuario_pai', lazy=True, cascade="all, delete-orphan")
 
+    funcionario_id = database.Column(database.Integer, database.ForeignKey('funcionario.id'), nullable=False)
     internacao = database.Column(database.DateTime, nullable=False, default=datetime.now)
     data_saida = database.Column(database.Date, nullable=True)
     motivo_saida = database.Column(database.String, nullable=True)
@@ -251,4 +147,3 @@ class Prontuario(BaseModel, ActiveMixin, PersonMixin, AddressMixin, TimestampMix
                     setattr(self, campo, datetime.strptime(valor, '%Y-%m-%d').date())
                 else:
                     setattr(self, campo, None)
-

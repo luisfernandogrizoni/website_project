@@ -38,17 +38,14 @@ def create_app():
     login_manager.login_message_category = "alert-info"
 
 
-    from root.flask.blueprints.main_routes import main_bp
-    from root.flask.blueprints.social_routes import social_bp
-    from root.flask.blueprints.admin_routes import admin_bp
-    from root.flask.blueprints.api_routes import api_bp
-    from root.flask.blueprints.debug_routes import debug_bp
+    from root.flask.main.routes import main_bp
+    from root.flask.social.routes import social_bp
+    from root.flask.recursos.routes import admin_bp
 
     app.register_blueprint(main_bp)
     app.register_blueprint(social_bp)
     app.register_blueprint(admin_bp)
-    app.register_blueprint(api_bp)
-    app.register_blueprint(debug_bp)
+
     register_error_handlers(app)
 
     if not os.path.exists('logs'):
